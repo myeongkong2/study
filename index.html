@@ -30,6 +30,8 @@
     section { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 18px; }
     .form-panel { align-self: start; }
     label { display: block; margin-top: 12px; color: #26364e; font-weight: 700; }
+    .check { display: flex; align-items: center; gap: 8px; margin-top: 8px; color: var(--muted); font-weight: 400; }
+    .check input { width: auto; margin: 0; }
     input, textarea, select {
       width: 100%; margin-top: 5px; padding: 10px 11px; border: 1px solid #bfc8d5;
       border-radius: 4px; background: #fff; color: #1a2b45; font: inherit;
@@ -74,6 +76,10 @@
       <h2>생성 조건</h2>
       <label for="key">Google AI Studio API 키</label>
       <input id="key" type="password" autocomplete="off" placeholder="이 브라우저 탭에서만 사용">
+      <label class="check" for="remember-key">
+        <input id="remember-key" type="checkbox">
+        이 브라우저에 API 키 기억하기
+      </label>
 
       <label for="construct">측정 구인</label>
       <input id="construct" value="업무 상황에서 경험하는 걱정">
@@ -103,7 +109,7 @@
         <button id="generate">후보 문항 생성</button>
         <button id="download" class="secondary" disabled>결과 JSON 저장</button>
       </div>
-      <p class="notice">API 키는 저장하거나 GitHub로 전송하지 않습니다. Gemini 호출에만 사용하며, 페이지를 닫으면 입력값이 사라집니다.</p>
+      <p class="notice">API 키는 GitHub로 전송하지 않습니다. 기억하기를 선택하면 이 브라우저에 저장됩니다. 공용 PC에서는 사용하지 마세요.</p>
       <details>
         <summary>검증 범위</summary>
         <p>이 화면은 생성 문항의 경험적 타당도를 입증하지 않습니다. 신뢰도, 문항-총점 상관, IRT, DIF 분석은 실제 응답자료가 수집된 이후 수행합니다.</p>
@@ -119,6 +125,22 @@
   <script>
     const $ = (id) => document.getElementById(id);
     const state = { items: [] };
+    const keyStorageName = "ecd-aig-gemini-api-key";
+
+    const rememberedKey = localStorage.getItem(keyStorageName);
+    if (rememberedKey) {
+      $("key").value = rememberedKey;
+      $("remember-key").checked = true;
+    }
+
+    function syncRememberedKey() {
+      const key = $("key").value.trim();
+      if ($("remember-key").checked && key) localStorage.setItem(keyStorageName, key);
+      else localStorage.removeItem(keyStorageName);
+    }
+
+    $("key").addEventListener("input", syncRememberedKey);
+    $("remember-key").addEventListener("change", syncRememberedKey);
 
     function normalize(text) {
       return text.replace(/\s+/g, "").toLowerCase();
@@ -224,6 +246,7 @@ ${JSON.stringify(context, null, 2)}`;
       const key = $("key").value.trim();
       const count = Math.max(1, Math.min(30, Number($("count").value) || 10));
       if (!key) return setStatus("Google AI Studio API 키를 입력하세요.", true);
+      syncRememberedKey();
       if (!$("construct").value.trim() || !$("claim").value.trim()) return setStatus("측정 구인과 증거 주장을 입력하세요.", true);
       $("generate").disabled = true;
       $("download").disabled = true;
