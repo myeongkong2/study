@@ -62,8 +62,12 @@
     th, td { padding: 11px 9px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
     th { background: #f8fafc; color: #475467; font-size: 12px; }
     th:first-child, td:first-child { width: 84px; }
-    th:last-child, td:last-child { width: 34%; }
+    th:nth-child(2), td:nth-child(2) { width: 72px; }
+    th:last-child, td:last-child { width: 24%; }
     code { color: #344054; white-space: pre-wrap; word-break: break-word; }
+    .decision { display: flex; align-items: center; gap: 6px; color: #344054; font-size: 13px; font-weight: 700; }
+    .decision input { width: auto; margin: 0; }
+    .note-input { min-width: 150px; padding: 7px 8px; border: 1px solid #cbd5e1; border-radius: 7px; font-size: 13px; }
     .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
     .chips span { border: 1px solid var(--line); border-radius: 999px; padding: 6px 9px; background: #fff; color: #475467; font-size: 12px; font-weight: 700; }
     @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
@@ -148,11 +152,9 @@
           <div class="body">
             <div id="result" class="empty">생성된 문항이 여기에 표시됩니다.</div>
             <div class="chips">
-              <span>template fit</span>
-              <span>single signal</span>
-              <span>variable diversity</span>
-              <span>language fit</span>
-              <span>expert review</span>
+              <span>템플릿에 맞는가</span>
+              <span>한 문항에 한 신호인가</span>
+              <span>저장할 만한가</span>
             </div>
           </div>
         </section>
@@ -274,11 +276,13 @@ ${JSON.stringify(excluded, null, 2)}`;
     function render(items) {
       const rows = items.map((item, index) => `<tr>
         <td>LLM-${String(index + 1).padStart(3, "0")}</td>
+        <td><label class="decision"><input type="checkbox" class="accept-item" data-index="${index}" checked>채택</label></td>
         <td>${escapeHtml(item.stem)}</td>
         <td><code>${escapeHtml(item.situation)} / ${escapeHtml(item.response_signal)}</code></td>
+        <td><input class="note-input" data-index="${index}" placeholder="메모"></td>
       </tr>`).join("");
       $("result").className = "table-wrap";
-      $("result").innerHTML = `<table><thead><tr><th>ID</th><th>문항</th><th>상황 / 반응</th></tr></thead><tbody>${rows}</tbody></table>`;
+      $("result").innerHTML = `<table><thead><tr><th>ID</th><th>판단</th><th>문항</th><th>상황 / 반응</th><th>메모</th></tr></thead><tbody>${rows}</tbody></table>`;
     }
 
     function escapeHtml(text) {
@@ -314,7 +318,7 @@ ${JSON.stringify(excluded, null, 2)}`;
           status: "expert_review_required"
         }));
         render(state.items);
-        setStatus(`${state.items.length}개의 고유 후보 문항을 생성했습니다. 전문가 검토가 필요합니다.`);
+        setStatus(`${state.items.length}개의 후보 문항을 생성했습니다. 저장할 문항만 채택하세요.`);
         $("download").disabled = false;
       } catch (error) {
         setStatus(error.message, true);
@@ -324,7 +328,22 @@ ${JSON.stringify(excluded, null, 2)}`;
     });
 
     $("download").addEventListener("click", () => {
-      const blob = new Blob([JSON.stringify({ generated_at: new Date().toISOString(), items: state.items }, null, 2)], { type: "application/json" });
+      const selected = state.items
+        .map((item, index) => {
+          const accepted = document.querySelector(`.accept-item[data-index="${index}"]`)?.checked;
+          const note = document.querySelector(`.note-input[data-index="${index}"]`)?.value.trim() || "";
+          return accepted ? { ...item, researcher_decision: "accepted", researcher_note: note } : null;
+        })
+        .filter(Boolean);
+      if (selected.length === 0) {
+        setStatus("저장할 문항을 하나 이상 채택하세요.", true);
+        return;
+      }
+      const blob = new Blob([JSON.stringify({
+        generated_at: new Date().toISOString(),
+        saved_count: selected.length,
+        items: selected
+      }, null, 2)], { type: "application/json" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
       link.download = "ecd-aig-candidates.json";
