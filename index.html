@@ -41,7 +41,9 @@
     input:focus, textarea:focus, select:focus { outline: 3px solid rgba(15, 118, 110, .14); border-color: var(--primary); }
     .check { display: flex; align-items: center; gap: 8px; margin-top: 9px; color: var(--muted); font-weight: 400; }
     .check input { width: auto; margin: 0; }
-    .row { display: grid; grid-template-columns: minmax(0, 1fr) 106px; gap: 10px; }
+    .row { display: grid; grid-template-columns: minmax(0, 1fr) 118px; gap: 10px; align-items: end; }
+    #count { height: 42px; }
+    .scale-box { margin-top: 6px; padding: 10px 11px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: #344054; font-weight: 700; word-break: keep-all; }
     .template-note { margin: 12px 0 0; padding: 10px 11px; border: 1px solid #c8e6df; border-radius: 8px; background: #f0fbf8; color: #115e59; font-size: 14px; }
     .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
     button { min-height: 40px; border: 0; border-radius: 8px; padding: 9px 13px; color: #fff; background: var(--primary); font: inherit; font-weight: 800; cursor: pointer; }
@@ -71,7 +73,8 @@
     .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
     .chips span { border: 1px solid var(--line); border-radius: 999px; padding: 6px 9px; background: #fff; color: #475467; font-size: 12px; font-weight: 700; }
     @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
-    @media (max-width: 600px) { header { align-items: flex-start; flex-direction: column; } .row, .summary { grid-template-columns: 1fr; } th:last-child, td:last-child { width: 38%; } }
+    @media (max-width: 720px) { .row { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { header { align-items: flex-start; flex-direction: column; } .summary { grid-template-columns: 1fr; } th:last-child, td:last-child { width: 38%; } }
   </style>
 </head>
 <body>
@@ -115,10 +118,8 @@
 
           <div class="row">
             <label for="scale">응답 척도
-              <select id="scale">
-                <option>전혀 그렇지 않다 | 그렇지 않다 | 보통이다 | 그렇다 | 매우 그렇다</option>
-                <option>전혀 아니다 | 약간 아니다 | 보통이다 | 약간 그렇다 | 매우 그렇다</option>
-              </select>
+              <input id="scale" type="hidden" value="전혀 그렇지 않다 | 그렇지 않다 | 보통이다 | 그렇다 | 매우 그렇다">
+              <div class="scale-box">5점 Likert</div>
             </label>
             <label for="count">개수
               <input id="count" type="number" min="1" max="30" value="10">
