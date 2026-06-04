@@ -133,6 +133,102 @@
       box-shadow: 0 1px 2px rgba(24, 34, 48, .04);
     }
     .badge:first-child { border-color: #b9d9d5; color: #0d5f58; background: #effaf8; }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(340px, .9fr);
+      gap: 20px;
+      padding: 24px 24px 4px;
+    }
+    .hero-copy {
+      display: grid;
+      align-content: center;
+      min-height: 220px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(15,118,110,.08), rgba(49,91,140,.06)),
+        #fff;
+      box-shadow: var(--shadow);
+    }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: #0d5f58;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .hero-copy h2 {
+      max-width: 780px;
+      font-size: 32px;
+      line-height: 1.18;
+    }
+    .hero-copy .sub {
+      max-width: 720px;
+      margin-top: 12px;
+      font-size: 15px;
+    }
+    .evidence-map {
+      min-height: 220px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .map-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 16px;
+      color: #344054;
+      font-weight: 800;
+    }
+    .map-title span {
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: #eef6ff;
+      color: #315b8c;
+      font-size: 11px;
+    }
+    .map-flow {
+      display: grid;
+      grid-template-columns: 1fr 20px 1fr 20px 1fr;
+      align-items: center;
+      gap: 8px;
+    }
+    .map-node {
+      min-height: 80px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+    }
+    .map-node strong { display: block; margin-bottom: 6px; }
+    .map-node small { color: var(--muted); }
+    .map-arrow {
+      height: 2px;
+      background: var(--primary);
+      position: relative;
+    }
+    .map-arrow::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: -4px;
+      border-left: 7px solid var(--primary);
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+    }
+    .map-note {
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #fff8e8;
+      color: #70480b;
+      font-size: 13px;
+    }
     .workspace {
       display: grid;
       grid-template-columns: minmax(360px, 440px) minmax(0, 1fr);
@@ -154,6 +250,16 @@
       padding: 16px 18px 12px;
       border-bottom: 1px solid var(--line);
       background: linear-gradient(180deg, #ffffff, #fbfcfe);
+    }
+    .panel-head h2::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-right: 8px;
+      border-radius: 999px;
+      background: var(--primary);
+      vertical-align: 1px;
     }
     .panel-body { padding: 18px; }
     .stack { display: grid; gap: 16px; align-content: start; }
@@ -252,6 +358,21 @@
       padding: 12px 10px 11px;
       min-height: 82px;
     }
+    .step::after {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 0;
+      height: 3px;
+      border-radius: 999px 999px 0 0;
+      background: var(--primary);
+      opacity: .72;
+    }
+    .step:nth-child(2)::after { background: var(--blue); }
+    .step:nth-child(3)::after { background: #5b6b7e; }
+    .step:nth-child(4)::after { background: var(--amber); }
+    .step:nth-child(5)::after { background: #7c3aed; }
     .step span {
       display: inline-flex;
       align-items: center;
@@ -328,12 +449,27 @@
     @media (max-width: 980px) {
       .app { grid-template-columns: 1fr; }
       aside { position: static; height: auto; }
+      .hero { grid-template-columns: 1fr; }
       .workspace { grid-template-columns: 1fr; }
       .workflow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 620px) {
       .topbar { align-items: flex-start; flex-direction: column; }
       .badge-row { justify-content: flex-start; }
+      .hero { padding: 16px 16px 0; }
+      .hero-copy { min-height: auto; padding: 20px; }
+      .hero-copy h2 { font-size: 24px; }
+      .map-flow { grid-template-columns: 1fr; }
+      .map-arrow { width: 2px; height: 18px; margin: 0 auto; }
+      .map-arrow::after {
+        right: -4px;
+        top: auto;
+        bottom: -1px;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 7px solid var(--primary);
+        border-bottom: 0;
+      }
       .workspace { padding: 16px; }
       .stats, .review-list { grid-template-columns: 1fr; }
       .row { grid-template-columns: 1fr; }
@@ -376,6 +512,42 @@
           </div>
         </div>
       </header>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Evidence-centered generation</p>
+          <h2>문항을 만들기 전에, 무엇을 측정하고 어떤 증거를 볼지 먼저 고정합니다.</h2>
+          <p class="sub">이 화면은 자동문항생성을 최종 검증으로 취급하지 않습니다. LLM은 후보를 만들고, 구조 게이트와 전문가 검토가 파일럿 전 경계를 지킵니다.</p>
+          <div class="badge-row" style="justify-content:flex-start; margin-top:16px;">
+            <span class="badge">No response data required</span>
+            <span class="badge">Lineage preserved</span>
+            <span class="badge">Review queue ready</span>
+          </div>
+        </div>
+        <div class="evidence-map">
+          <div class="map-title">
+            <strong>Design-time evidence map</strong>
+            <span>pre-response</span>
+          </div>
+          <div class="map-flow">
+            <div class="map-node">
+              <strong>ECD warrant</strong>
+              <small>construct · KSA · evidence claim</small>
+            </div>
+            <div class="map-arrow"></div>
+            <div class="map-node">
+              <strong>Task model</strong>
+              <small>variables · constraints · response scale</small>
+            </div>
+            <div class="map-arrow"></div>
+            <div class="map-node">
+              <strong>Review queue</strong>
+              <small>duplicates · language · scale fit</small>
+            </div>
+          </div>
+          <p class="map-note">신뢰도, IRT, DIF는 실제 응답자료가 들어온 이후 단계입니다.</p>
+        </div>
+      </section>
 
       <main class="workspace">
         <div class="stack">
