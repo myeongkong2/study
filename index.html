@@ -41,9 +41,8 @@
     input:focus, textarea:focus, select:focus { outline: 3px solid rgba(15, 118, 110, .14); border-color: var(--primary); }
     .check { display: flex; align-items: center; gap: 8px; margin-top: 9px; color: var(--muted); font-weight: 400; }
     .check input { width: auto; margin: 0; }
-    .row { display: grid; grid-template-columns: minmax(0, 1fr) 118px; gap: 10px; align-items: end; }
     #count { height: 42px; }
-    .scale-box { margin-top: 6px; padding: 10px 11px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: #344054; font-weight: 700; word-break: keep-all; }
+    .count-field { max-width: 140px; }
     .template-note { margin: 12px 0 0; padding: 10px 11px; border: 1px solid #c8e6df; border-radius: 8px; background: #f0fbf8; color: #115e59; font-size: 14px; }
     .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
     button { min-height: 40px; border: 0; border-radius: 8px; padding: 9px 13px; color: #fff; background: var(--primary); font: inherit; font-weight: 800; cursor: pointer; }
@@ -73,7 +72,6 @@
     .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
     .chips span { border: 1px solid var(--line); border-radius: 999px; padding: 6px 9px; background: #fff; color: #475467; font-size: 12px; font-weight: 700; }
     @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
-    @media (max-width: 720px) { .row { grid-template-columns: 1fr; } }
     @media (max-width: 600px) { header { align-items: flex-start; flex-direction: column; } .summary { grid-template-columns: 1fr; } th:last-child, td:last-child { width: 38%; } }
   </style>
 </head>
@@ -116,15 +114,9 @@
           <label for="response-domain">반응 변수 도메인</label>
           <textarea id="response-domain">하나의 해석 가능한 감정, 인지, 행동 반응. 문항마다 단일 반응만 사용.</textarea>
 
-          <div class="row">
-            <label for="scale">응답 척도
-              <input id="scale" type="hidden" value="전혀 그렇지 않다 | 그렇지 않다 | 보통이다 | 그렇다 | 매우 그렇다">
-              <div class="scale-box">5점 Likert</div>
-            </label>
-            <label for="count">개수
-              <input id="count" type="number" min="1" max="30" value="10">
-            </label>
-          </div>
+          <label for="count" class="count-field">생성 개수
+            <input id="count" type="number" min="1" max="30" value="10">
+          </label>
 
           <p class="template-note">부모 템플릿은 문항의 틀입니다. 생성 결과는 이 틀에서 파생된 후보 문항으로만 취급합니다.</p>
           <div class="actions">
@@ -164,6 +156,7 @@
     const $ = (id) => document.getElementById(id);
     const state = { items: [] };
     const keyStorageName = "ecd-aig-gemini-api-key";
+    const DEFAULT_RESPONSE_SCALE = ["전혀 그렇지 않다", "그렇지 않다", "보통이다", "그렇다", "매우 그렇다"];
     const DEFAULT_CONSTRAINTS = [
       "한 문항에는 한 상황과 한 반응만 포함한다.",
       "임상적 진단 표현이나 낙인 표현은 피한다.",
@@ -222,7 +215,7 @@
         situation_domain: $("situation-domain").value.trim(),
         response_domain: $("response-domain").value.trim(),
         constraints: DEFAULT_CONSTRAINTS,
-        response_scale: $("scale").value.split(" | ")
+        response_scale: DEFAULT_RESPONSE_SCALE
       };
     }
 
