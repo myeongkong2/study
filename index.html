@@ -113,9 +113,6 @@
           <label for="response-domain">반응 변수 도메인</label>
           <textarea id="response-domain">하나의 해석 가능한 감정, 인지, 행동 반응. 문항마다 단일 반응만 사용.</textarea>
 
-          <label for="constraints">생성 제약</label>
-          <textarea id="constraints">한 문항에는 한 상황과 한 반응만 포함한다. 임상적 진단 표현이나 낙인 표현은 피한다. 문항 간 표현과 맥락을 반복하지 않는다.</textarea>
-
           <div class="row">
             <label for="scale">응답 척도
               <select id="scale">
@@ -166,6 +163,12 @@
     const $ = (id) => document.getElementById(id);
     const state = { items: [] };
     const keyStorageName = "ecd-aig-gemini-api-key";
+    const DEFAULT_CONSTRAINTS = [
+      "한 문항에는 한 상황과 한 반응만 포함한다.",
+      "임상적 진단 표현이나 낙인 표현은 피한다.",
+      "문항 간 표현과 맥락을 반복하지 않는다.",
+      "생성 결과는 연구자 검토 전 후보 문항으로만 취급한다."
+    ].join(" ");
 
     const rememberedKey = localStorage.getItem(keyStorageName);
     if (rememberedKey) {
@@ -217,7 +220,7 @@
         stem_frame: $("stem-frame").value.trim(),
         situation_domain: $("situation-domain").value.trim(),
         response_domain: $("response-domain").value.trim(),
-        constraints: $("constraints").value.trim(),
+        constraints: DEFAULT_CONSTRAINTS,
         response_scale: $("scale").value.split(" | ")
       };
     }
