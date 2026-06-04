@@ -7,121 +7,418 @@
   <style>
     :root {
       color-scheme: light;
-      --ink: #14213d;
-      --muted: #5d6878;
-      --line: #d8dee8;
+      --bg: #f7f8fb;
       --panel: #ffffff;
-      --bg: #f5f7fa;
-      --teal: #087f8c;
-      --navy: #143d73;
-      --amber: #b56b00;
-      --danger: #a83a32;
+      --panel-soft: #fbfcfe;
+      --ink: #111827;
+      --muted: #667085;
+      --line: #e4e7ec;
+      --strong-line: #cfd6e3;
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --navy: #1d3557;
+      --amber: #b7791f;
+      --red: #b42318;
+      --shadow: 0 1px 2px rgba(16, 24, 40, .06);
     }
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 Arial, sans-serif; }
-    header { background: #fff; border-bottom: 1px solid var(--line); }
-    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
-    header .wrap { padding: 22px 0 18px; }
-    h1 { margin: 0; font-size: 28px; letter-spacing: 0; }
-    h2 { margin: 0 0 14px; font-size: 18px; letter-spacing: 0; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 14px/1.5 Arial, sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    .app {
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+    aside {
+      background: #101828;
+      color: #f9fafb;
+      padding: 20px 16px;
+    }
+    .brand { margin-bottom: 24px; }
+    .brand strong { display: block; font-size: 18px; }
+    .brand span { color: #cbd5e1; font-size: 12px; }
+    .nav-group { margin-top: 18px; }
+    .nav-title {
+      margin: 0 0 8px;
+      color: #98a2b3;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 4px 0;
+      padding: 8px 10px;
+      border-radius: 6px;
+      color: #e5e7eb;
+    }
+    .nav-item.active { background: rgba(255, 255, 255, .1); }
+    .nav-item small { color: #98a2b3; }
+    .content { min-width: 0; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, .94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(8px);
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 22px;
+    }
+    h1 { margin: 0; font-size: 22px; letter-spacing: 0; }
+    h2 { margin: 0; font-size: 16px; letter-spacing: 0; }
+    h3 { margin: 0 0 10px; font-size: 14px; letter-spacing: 0; }
     p { margin: 6px 0; }
     .sub { color: var(--muted); }
-    main { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 18px; padding: 20px 0 32px; }
-    section { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 18px; }
-    .form-panel { align-self: start; }
-    label { display: block; margin-top: 12px; color: #26364e; font-weight: 700; }
-    .check { display: flex; align-items: center; gap: 8px; margin-top: 8px; color: var(--muted); font-weight: 400; }
-    .check input { width: auto; margin: 0; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 9px;
+      background: var(--panel);
+      color: #344054;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(340px, 430px) minmax(0, 1fr);
+      gap: 18px;
+      padding: 20px 22px 28px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .panel-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 16px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    .panel-body { padding: 16px; }
+    .stack { display: grid; gap: 14px; align-content: start; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 13px;
+      box-shadow: var(--shadow);
+    }
+    .stat span { display: block; color: var(--muted); font-size: 12px; }
+    .stat strong { display: block; margin-top: 6px; font-size: 20px; }
+    label { display: block; margin-top: 12px; color: #344054; font-weight: 700; }
     input, textarea, select {
-      width: 100%; margin-top: 5px; padding: 10px 11px; border: 1px solid #bfc8d5;
-      border-radius: 4px; background: #fff; color: #1a2b45; font: inherit;
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px 11px;
+      border: 1px solid var(--strong-line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
     }
-    textarea { min-height: 84px; resize: vertical; }
+    input:focus, textarea:focus, select:focus {
+      outline: 2px solid rgba(15, 118, 110, .18);
+      border-color: var(--primary);
+    }
+    textarea { min-height: 86px; resize: vertical; }
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 9px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+    .check input { width: auto; margin: 0; }
     .row { display: grid; grid-template-columns: 1fr 104px; gap: 10px; }
-    button {
-      border: 0; border-radius: 4px; padding: 10px 13px; color: #fff; background: var(--navy);
-      font: inherit; font-weight: 700; cursor: pointer;
-    }
-    button:hover { filter: brightness(1.08); }
-    button:disabled { cursor: wait; opacity: .58; }
     .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-    .secondary { background: #4d5d72; }
-    .notice { margin-top: 14px; padding: 10px 12px; border-left: 3px solid var(--amber); background: #fff8eb; color: #684106; }
-    .status { margin: 0 0 13px; color: var(--muted); }
-    .status.error { color: var(--danger); }
-    .empty { min-height: 240px; display: grid; place-items: center; color: var(--muted); text-align: center; }
+    button {
+      border: 0;
+      border-radius: 6px;
+      padding: 10px 13px;
+      color: #fff;
+      background: var(--primary);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:hover { background: var(--primary-dark); }
+    button:disabled { cursor: wait; opacity: .58; }
+    .secondary { background: #475467; }
+    .secondary:hover { background: #344054; }
+    .notice {
+      margin-top: 14px;
+      padding: 10px 12px;
+      border: 1px solid #f6d394;
+      border-left: 3px solid var(--amber);
+      border-radius: 6px;
+      background: #fff9eb;
+      color: #7a4b00;
+    }
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-soft);
+      padding: 10px;
+      min-height: 74px;
+    }
+    .step span { color: var(--muted); font-size: 11px; font-weight: 700; }
+    .step strong { display: block; margin-top: 4px; font-size: 13px; }
+    .status { margin: 0; color: var(--muted); }
+    .status.error { color: var(--red); }
+    .empty {
+      min-height: 270px;
+      display: grid;
+      place-items: center;
+      border: 1px dashed var(--strong-line);
+      border-radius: 8px;
+      color: var(--muted);
+      text-align: center;
+      background: var(--panel-soft);
+    }
+    .table-wrap { overflow: auto; }
     table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-    th, td { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-    th { color: #344359; font-size: 13px; }
-    th:first-child, td:first-child { width: 76px; }
-    th:last-child, td:last-child { width: 35%; }
-    code { color: #3e4c5f; white-space: pre-wrap; word-break: break-word; }
-    details { margin-top: 16px; color: var(--muted); }
-    summary { cursor: pointer; color: #344359; font-weight: 700; }
-    @media (max-width: 860px) {
-      main { grid-template-columns: 1fr; }
-      th:last-child, td:last-child { width: 32%; }
+    th, td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th { color: #475467; font-size: 12px; }
+    th:first-child, td:first-child { width: 82px; }
+    th:last-child, td:last-child { width: 34%; }
+    code { color: #344054; white-space: pre-wrap; word-break: break-word; }
+    .review-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .review-list li {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 9px 10px;
+      background: var(--panel-soft);
+      color: #344054;
+    }
+    .links { display: flex; flex-wrap: wrap; gap: 8px; }
+    .link-button {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px 10px;
+      background: #fff;
+      color: #344054;
+      font-weight: 700;
+    }
+    @media (max-width: 980px) {
+      .app { grid-template-columns: 1fr; }
+      aside { position: static; }
+      .workspace { grid-template-columns: 1fr; }
+      .workflow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 620px) {
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .stats, .review-list { grid-template-columns: 1fr; }
+      .row { grid-template-columns: 1fr; }
+      th:last-child, td:last-child { width: 38%; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <h1>ECD-AIG 후보 문항 생성</h1>
-      <p class="sub">응답자료 수집 전 단계에서 ECD 계보를 유지한 후보 문항을 생성하고, 중복을 제거합니다.</p>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <strong>ECD-AIG</strong>
+        <span>Pre-response item lab</span>
+      </div>
+      <div class="nav-group">
+        <p class="nav-title">Workflow</p>
+        <div class="nav-item active"><span>Candidate generation</span><small>active</small></div>
+        <div class="nav-item"><span>Structural gates</span><small>design</small></div>
+        <div class="nav-item"><span>Expert review</span><small>required</small></div>
+        <div class="nav-item"><span>Pilot data</span><small>later</small></div>
+      </div>
+      <div class="nav-group">
+        <p class="nav-title">Reference</p>
+        <a class="nav-item" href="https://ui.shadcn.com/docs/_blocks" target="_blank" rel="noreferrer"><span>shadcn/ui Blocks</span><small>docs</small></a>
+        <a class="nav-item" href="https://github.com/shadcn-ui/ui" target="_blank" rel="noreferrer"><span>shadcn/ui GitHub</span><small>repo</small></a>
+      </div>
+    </aside>
+
+    <div class="content">
+      <header>
+        <div class="topbar">
+          <div>
+            <h1>ECD-AIG 후보 문항 생성</h1>
+            <p class="sub">응답자료 수집 전 단계에서 ECD 계보를 유지한 후보 문항을 생성하고 중복을 제거합니다.</p>
+          </div>
+          <div class="badge-row">
+            <span class="badge">Gemini 2.5 Flash</span>
+            <span class="badge">Design-time validation</span>
+            <span class="badge">Expert review required</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <div class="stack">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>생성 조건</h2>
+                <p class="sub">구인과 증거 주장을 먼저 고정한 뒤 문항을 생성합니다.</p>
+              </div>
+            </div>
+            <div class="panel-body">
+              <label for="key">Google AI Studio API 키</label>
+              <input id="key" type="password" autocomplete="off" placeholder="이 브라우저에서만 사용">
+              <label class="check" for="remember-key">
+                <input id="remember-key" type="checkbox">
+                이 브라우저에 API 키 기억하기
+              </label>
+
+              <label for="construct">측정 구인</label>
+              <input id="construct" value="업무 상황에서 경험하는 걱정">
+
+              <label for="ksa">KSA 또는 하위 특성</label>
+              <input id="ksa" value="업무 부담 상황에서 나타나는 걱정 반응">
+
+              <label for="claim">증거 주장</label>
+              <textarea id="claim">응답자는 서로 다른 구체적 업무 상황에서 경험하는 단일 걱정 반응의 정도를 보고할 수 있다.</textarea>
+
+              <label for="brief">문항 생성 조건</label>
+              <textarea id="brief">서로 다른 구체적 업무 상황을 사용한다. 한 문항에는 한 가지 상황과 한 가지 감정 반응만 포함한다. 문항 간 표현과 맥락을 반복하지 않는다.</textarea>
+
+              <div class="row">
+                <label for="scale">응답 척도
+                  <select id="scale">
+                    <option>전혀 그렇지 않다 | 그렇지 않다 | 보통이다 | 그렇다 | 매우 그렇다</option>
+                    <option>전혀 아니다 | 약간 아니다 | 보통이다 | 약간 그렇다 | 매우 그렇다</option>
+                  </select>
+                </label>
+                <label for="count">생성 개수
+                  <input id="count" type="number" min="1" max="30" value="10">
+                </label>
+              </div>
+
+              <div class="actions">
+                <button id="generate">후보 문항 생성</button>
+                <button id="download" class="secondary" disabled>결과 JSON 저장</button>
+              </div>
+              <p class="notice">API 키는 GitHub로 전송하지 않습니다. 기억하기를 선택하면 이 브라우저에 저장됩니다. 공용 PC에서는 사용하지 마세요.</p>
+            </div>
+          </section>
+        </div>
+
+        <div class="stack">
+          <div class="stats">
+            <div class="stat"><span>Phase</span><strong>Pre-response</strong></div>
+            <div class="stat"><span>Gate</span><strong>Design</strong></div>
+            <div class="stat"><span>Evidence</span><strong>Not empirical</strong></div>
+          </div>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>검증 워크플로우</h2>
+                <p class="sub">생성 결과는 파일럿 전 전문가 검토 큐로 이동합니다.</p>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="workflow">
+                <div class="step"><span>01</span><strong>ECD 조건 고정</strong></div>
+                <div class="step"><span>02</span><strong>LLM 후보 생성</strong></div>
+                <div class="step"><span>03</span><strong>중복 제거</strong></div>
+                <div class="step"><span>04</span><strong>전문가 검토</strong></div>
+                <div class="step"><span>05</span><strong>파일럿 준비</strong></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>후보 문항</h2>
+                <p id="status" class="status">생성 조건을 입력하고 버튼을 누르세요.</p>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div id="result" class="empty">생성된 문항이 여기에 표시됩니다.</div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>전문가 검토 항목</h2>
+                <p class="sub">자동 생성 결과는 아래 항목을 통과해야 운영 전 문항으로 볼 수 있습니다.</p>
+              </div>
+            </div>
+            <div class="panel-body">
+              <ul class="review-list">
+                <li>construct alignment와 construct drift</li>
+                <li>단일 신호 해석 가능성</li>
+                <li>임상적 또는 낙인 표현</li>
+                <li>응답척도 적합성</li>
+                <li>내용 관련성 및 명료성</li>
+                <li>대상 집단에서의 공정성</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>연결한 UI 참고</h2>
+                <p class="sub">GitHub 저장소 기반으로 확인 가능한 shadcn/ui Blocks 패턴을 참고했습니다.</p>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="links">
+                <a class="link-button" href="https://ui.shadcn.com/docs/_blocks" target="_blank" rel="noreferrer">Blocks 문서</a>
+                <a class="link-button" href="https://github.com/shadcn-ui/ui" target="_blank" rel="noreferrer">GitHub 저장소</a>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
     </div>
-  </header>
-  <main class="wrap">
-    <section class="form-panel">
-      <h2>생성 조건</h2>
-      <label for="key">Google AI Studio API 키</label>
-      <input id="key" type="password" autocomplete="off" placeholder="이 브라우저 탭에서만 사용">
-      <label class="check" for="remember-key">
-        <input id="remember-key" type="checkbox">
-        이 브라우저에 API 키 기억하기
-      </label>
+  </div>
 
-      <label for="construct">측정 구인</label>
-      <input id="construct" value="업무 상황에서 경험하는 걱정">
-
-      <label for="ksa">KSA 또는 하위 특성</label>
-      <input id="ksa" value="업무 부담 상황에서 나타나는 걱정 반응">
-
-      <label for="claim">증거 주장</label>
-      <textarea id="claim">응답자는 서로 다른 구체적 업무 상황에서 경험하는 단일 걱정 반응의 정도를 보고할 수 있다.</textarea>
-
-      <label for="brief">문항 생성 조건</label>
-      <textarea id="brief">서로 다른 구체적 업무 상황을 사용한다. 한 문항에는 한 가지 상황과 한 가지 감정 반응만 포함한다. 문항 간 표현과 맥락을 반복하지 않는다.</textarea>
-
-      <div class="row">
-        <label for="scale">응답 척도
-          <select id="scale">
-            <option>전혀 그렇지 않다 | 그렇지 않다 | 보통이다 | 그렇다 | 매우 그렇다</option>
-            <option>전혀 아니다 | 약간 아니다 | 보통이다 | 약간 그렇다 | 매우 그렇다</option>
-          </select>
-        </label>
-        <label for="count">생성 개수
-          <input id="count" type="number" min="1" max="30" value="10">
-        </label>
-      </div>
-
-      <div class="actions">
-        <button id="generate">후보 문항 생성</button>
-        <button id="download" class="secondary" disabled>결과 JSON 저장</button>
-      </div>
-      <p class="notice">API 키는 GitHub로 전송하지 않습니다. 기억하기를 선택하면 이 브라우저에 저장됩니다. 공용 PC에서는 사용하지 마세요.</p>
-      <details>
-        <summary>검증 범위</summary>
-        <p>이 화면은 생성 문항의 경험적 타당도를 입증하지 않습니다. 신뢰도, 문항-총점 상관, IRT, DIF 분석은 실제 응답자료가 수집된 이후 수행합니다.</p>
-      </details>
-    </section>
-
-    <section>
-      <h2>후보 문항</h2>
-      <p id="status" class="status">생성 조건을 입력하고 버튼을 누르세요.</p>
-      <div id="result" class="empty">생성된 문항이 여기에 표시됩니다.</div>
-    </section>
-  </main>
   <script>
     const $ = (id) => document.getElementById(id);
     const state = { items: [] };
@@ -232,7 +529,7 @@ ${JSON.stringify(context, null, 2)}`;
         <td>${escapeHtml(item.stem)}</td>
         <td><code>${escapeHtml(item.situation)} / ${escapeHtml(item.response_signal)}</code></td>
       </tr>`).join("");
-      $("result").className = "";
+      $("result").className = "table-wrap";
       $("result").innerHTML = `<table><thead><tr><th>ID</th><th>문항</th><th>상황 / 반응</th></tr></thead><tbody>${rows}</tbody></table>`;
     }
 
