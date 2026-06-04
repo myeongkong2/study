@@ -78,28 +78,32 @@
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr);
       gap: 20px;
-      align-items: end;
-      padding: 12px 0 22px;
+      align-items: start;
+      padding: 12px 0 24px;
     }
     h1 {
-      max-width: 760px;
+      max-width: 100%;
       margin: 0;
-      font-size: clamp(30px, 4vw, 50px);
-      line-height: 1.05;
+      font-size: clamp(28px, 3.4vw, 44px);
+      line-height: 1.18;
       letter-spacing: 0;
+      word-break: keep-all;
+      overflow-wrap: normal;
     }
     .hero p {
-      max-width: 690px;
+      max-width: 760px;
       margin: 14px 0 0;
       color: var(--muted);
       font-size: 16px;
+      word-break: keep-all;
     }
     .mini-flow {
       display: grid;
       grid-auto-flow: column;
       align-items: center;
+      justify-self: start;
       gap: 8px;
       padding: 10px;
       border: 1px solid var(--line);
@@ -325,6 +329,7 @@
       header { align-items: flex-start; flex-direction: column; }
       .top-actions { flex-wrap: wrap; }
       .row, .metrics { grid-template-columns: 1fr; }
+      h1 { font-size: 28px; }
       .card-body { padding: 16px; }
       th:last-child, td:last-child { width: 38%; }
     }
