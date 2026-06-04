@@ -12,363 +12,105 @@
       --ink: #172033;
       --muted: #687386;
       --line: #dfe5ec;
-      --field: #ffffff;
       --primary: #0f766e;
       --primary-dark: #115e59;
       --danger: #b42318;
     }
-
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font: 15px/1.55 Arial, sans-serif;
-    }
-
-    .wrap {
-      width: min(1120px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 26px 0 40px;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 18px;
-    }
-
-    .mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: var(--primary);
-    }
-
-    .tag {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 6px 10px;
-      background: #fff;
-      color: var(--muted);
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
-    .intro {
-      margin-bottom: 24px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    h1 {
-      max-width: 860px;
-      margin: 0;
-      font-size: clamp(30px, 4vw, 44px);
-      line-height: 1.18;
-      letter-spacing: 0;
-      word-break: keep-all;
-    }
-
-    .intro p {
-      max-width: 760px;
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 16px;
-      word-break: keep-all;
-    }
-
-    .flow {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 18px;
-    }
-
-    .flow span {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 8px 10px;
-      background: #fff;
-      color: #344054;
-      font-weight: 700;
-      font-size: 13px;
-    }
-
-    main {
-      display: grid;
-      grid-template-columns: minmax(330px, 420px) minmax(0, 1fr);
-      gap: 18px;
-      align-items: start;
-    }
-
-    section {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-    }
-
-    .head {
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    h2 {
-      margin: 0;
-      font-size: 18px;
-      letter-spacing: 0;
-    }
-
-    .hint {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 Arial, sans-serif; }
+    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 26px 0 40px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; }
+    .mark { width: 32px; height: 32px; border-radius: 8px; background: var(--primary); }
+    .tag { border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; background: #fff; color: var(--muted); font-size: 13px; white-space: nowrap; }
+    .intro { margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+    h1 { max-width: 860px; margin: 0; font-size: clamp(30px, 4vw, 44px); line-height: 1.18; letter-spacing: 0; word-break: keep-all; }
+    .intro p { max-width: 780px; margin: 12px 0 0; color: var(--muted); font-size: 16px; word-break: keep-all; }
+    .flow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .flow span { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: #fff; color: #344054; font-weight: 700; font-size: 13px; }
+    main { display: grid; grid-template-columns: minmax(340px, 450px) minmax(0, 1fr); gap: 18px; align-items: start; }
+    section { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+    .head { padding: 16px 18px; border-bottom: 1px solid var(--line); }
+    h2 { margin: 0; font-size: 18px; letter-spacing: 0; }
+    .hint { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
     .body { padding: 18px; }
-
-    label {
-      display: block;
-      margin-top: 14px;
-      color: #344054;
-      font-weight: 700;
-    }
-
+    label { display: block; margin-top: 14px; color: #344054; font-weight: 700; }
     label:first-child { margin-top: 0; }
-
-    input, textarea, select {
-      width: 100%;
-      margin-top: 6px;
-      padding: 10px 11px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      background: var(--field);
-      color: var(--ink);
-      font: inherit;
-    }
-
-    textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
-
-    input:focus, textarea:focus, select:focus {
-      outline: 3px solid rgba(15, 118, 110, .14);
-      border-color: var(--primary);
-    }
-
-    .check {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 9px;
-      color: var(--muted);
-      font-weight: 400;
-    }
-
-    .check input {
-      width: auto;
-      margin: 0;
-    }
-
-    .row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 106px;
-      gap: 10px;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 18px;
-    }
-
-    button {
-      min-height: 40px;
-      border: 0;
-      border-radius: 8px;
-      padding: 9px 13px;
-      color: #fff;
-      background: var(--primary);
-      font: inherit;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
+    input, textarea, select { width: 100%; margin-top: 6px; padding: 10px 11px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; color: var(--ink); font: inherit; }
+    textarea { min-height: 82px; resize: vertical; }
+    input:focus, textarea:focus, select:focus { outline: 3px solid rgba(15, 118, 110, .14); border-color: var(--primary); }
+    .check { display: flex; align-items: center; gap: 8px; margin-top: 9px; color: var(--muted); font-weight: 400; }
+    .check input { width: auto; margin: 0; }
+    .row { display: grid; grid-template-columns: minmax(0, 1fr) 106px; gap: 10px; }
+    .template-note { margin: 12px 0 0; padding: 10px 11px; border: 1px solid #c8e6df; border-radius: 8px; background: #f0fbf8; color: #115e59; font-size: 14px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    button { min-height: 40px; border: 0; border-radius: 8px; padding: 9px 13px; color: #fff; background: var(--primary); font: inherit; font-weight: 800; cursor: pointer; }
     button:hover { background: var(--primary-dark); }
     button:disabled { opacity: .55; cursor: wait; }
-
-    .secondary {
-      color: #344054;
-      background: #fff;
-      border: 1px solid #cbd5e1;
-    }
-
+    .secondary { color: #344054; background: #fff; border: 1px solid #cbd5e1; }
     .secondary:hover { background: #f8fafc; }
-
-    .notice {
-      margin: 14px 0 0;
-      padding: 10px 11px;
-      border: 1px solid #edd19b;
-      border-radius: 8px;
-      background: #fff8e8;
-      color: #70480b;
-      font-size: 14px;
-    }
-
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .metric {
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: #fff;
-      padding: 13px;
-    }
-
-    .metric span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .metric strong {
-      display: block;
-      margin-top: 4px;
-      font-size: 17px;
-    }
-
-    .status {
-      margin: 0;
-      color: var(--muted);
-    }
-
+    .notice { margin: 14px 0 0; padding: 10px 11px; border: 1px solid #edd19b; border-radius: 8px; background: #fff8e8; color: #70480b; font-size: 14px; }
+    .summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 18px; }
+    .metric { border: 1px solid var(--line); border-radius: 10px; background: #fff; padding: 13px; }
+    .metric span { display: block; color: var(--muted); font-size: 12px; }
+    .metric strong { display: block; margin-top: 4px; font-size: 17px; }
+    .status { margin: 0; color: var(--muted); }
     .status.error { color: var(--danger); }
-
-    .empty {
-      min-height: 330px;
-      display: grid;
-      place-items: center;
-      border: 1px dashed #cbd5e1;
-      border-radius: 10px;
-      background: #f8fafc;
-      color: var(--muted);
-      text-align: center;
-    }
-
+    .empty { min-height: 330px; display: grid; place-items: center; border: 1px dashed #cbd5e1; border-radius: 10px; background: #f8fafc; color: var(--muted); text-align: center; }
     .table-wrap { overflow: auto; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-
-    th, td {
-      padding: 11px 9px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th {
-      background: #f8fafc;
-      color: #475467;
-      font-size: 12px;
-    }
-
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    th, td { padding: 11px 9px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: #f8fafc; color: #475467; font-size: 12px; }
     th:first-child, td:first-child { width: 84px; }
     th:last-child, td:last-child { width: 34%; }
     code { color: #344054; white-space: pre-wrap; word-break: break-word; }
-
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-    }
-
-    .chips span {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 6px 9px;
-      background: #fff;
-      color: #475467;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    @media (max-width: 900px) {
-      main { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 600px) {
-      header { align-items: flex-start; flex-direction: column; }
-      .row, .summary { grid-template-columns: 1fr; }
-      th:last-child, td:last-child { width: 38%; }
-    }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .chips span { border: 1px solid var(--line); border-radius: 999px; padding: 6px 9px; background: #fff; color: #475467; font-size: 12px; font-weight: 700; }
+    @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { header { align-items: flex-start; flex-direction: column; } .row, .summary { grid-template-columns: 1fr; } th:last-child, td:last-child { width: 38%; } }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div class="brand">
-        <span class="mark"></span>
-        <span>ECD-AIG</span>
-      </div>
-      <span class="tag">Pre-response item generation</span>
+      <div class="brand"><span class="mark"></span><span>ECD-AIG</span></div>
+      <span class="tag">Parent-template generation</span>
     </header>
 
     <div class="intro">
-      <h1>후보 문항 생성</h1>
-      <p>구인, KSA, 증거 주장을 고정한 뒤 LLM으로 후보 문항을 생성합니다.</p>
-      <div class="flow">
-        <span>ECD</span>
-        <span>Generate</span>
-        <span>Review</span>
-      </div>
+      <h1>부모 템플릿에서 후보 문항을 생성합니다.</h1>
+      <p>측정 주제를 길게 고정하지 않고, 문항 틀과 변수 도메인을 정해 LLM이 그 안에서 후보만 만들게 합니다.</p>
+      <div class="flow"><span>Parent template</span><span>Variables</span><span>Candidate items</span></div>
     </div>
 
     <main>
       <section>
         <div class="head">
-          <h2>생성 조건</h2>
-          <p class="hint">문항 생성에 필요한 값만 입력하세요.</p>
+          <h2>부모 템플릿</h2>
+          <p class="hint">문항의 틀과 허용 변수를 짧게 지정하세요.</p>
         </div>
         <div class="body">
           <label for="key">Google AI Studio API 키</label>
           <input id="key" type="password" autocomplete="off" placeholder="이 브라우저에서만 사용">
-          <label class="check" for="remember-key">
-            <input id="remember-key" type="checkbox">
-            이 브라우저에 API 키 기억하기
-          </label>
+          <label class="check" for="remember-key"><input id="remember-key" type="checkbox">이 브라우저에 API 키 기억하기</label>
 
-          <label for="construct">측정 구인</label>
-          <input id="construct" value="업무 상황에서 경험하는 걱정">
+          <label for="template-name">템플릿 이름</label>
+          <input id="template-name" value="단일 상황-단일 반응 Likert 문항">
 
-          <label for="ksa">KSA 또는 하위 특성</label>
-          <input id="ksa" value="업무 부담 상황에서 나타나는 걱정 반응">
+          <label for="measurement-focus">측정 초점</label>
+          <textarea id="measurement-focus">특정 상황에서 나타나는 하나의 심리적 또는 행동적 반응 정도</textarea>
 
-          <label for="claim">증거 주장</label>
-          <textarea id="claim">응답자는 서로 다른 구체적 업무 상황에서 경험하는 단일 걱정 반응의 정도를 보고할 수 있다.</textarea>
+          <label for="stem-frame">문항 틀</label>
+          <textarea id="stem-frame">나는 [상황]에서 [반응]을/를 느낀다.</textarea>
 
-          <label for="brief">문항 생성 조건</label>
-          <textarea id="brief">서로 다른 구체적 업무 상황을 사용한다. 한 문항에는 한 가지 상황과 한 가지 감정 반응만 포함한다. 문항 간 표현과 맥락을 반복하지 않는다.</textarea>
+          <label for="situation-domain">상황 변수 도메인</label>
+          <textarea id="situation-domain">구체적이고 관찰 가능한 상황. 서로 중복되지 않아야 함.</textarea>
+
+          <label for="response-domain">반응 변수 도메인</label>
+          <textarea id="response-domain">하나의 해석 가능한 감정, 인지, 행동 반응. 문항마다 단일 반응만 사용.</textarea>
+
+          <label for="constraints">생성 제약</label>
+          <textarea id="constraints">한 문항에는 한 상황과 한 반응만 포함한다. 임상적 진단 표현이나 낙인 표현은 피한다. 문항 간 표현과 맥락을 반복하지 않는다.</textarea>
 
           <div class="row">
             <label for="scale">응답 척도
@@ -382,6 +124,7 @@
             </label>
           </div>
 
+          <p class="template-note">부모 템플릿은 문항의 틀입니다. 생성 결과는 이 틀에서 파생된 후보 문항으로만 취급합니다.</p>
           <div class="actions">
             <button id="generate">후보 문항 생성</button>
             <button id="download" class="secondary" disabled>JSON 저장</button>
@@ -392,7 +135,7 @@
 
       <div>
         <div class="summary">
-          <div class="metric"><span>Boundary</span><strong>Design-time</strong></div>
+          <div class="metric"><span>Source</span><strong>Parent template</strong></div>
           <div class="metric"><span>Evidence</span><strong>Pre-response</strong></div>
           <div class="metric"><span>Status</span><strong>Review needed</strong></div>
         </div>
@@ -400,16 +143,16 @@
         <section>
           <div class="head">
             <h2>후보 문항</h2>
-            <p id="status" class="status">생성 조건을 입력하고 버튼을 누르세요.</p>
+            <p id="status" class="status">부모 템플릿을 확인하고 생성 버튼을 누르세요.</p>
           </div>
           <div class="body">
             <div id="result" class="empty">생성된 문항이 여기에 표시됩니다.</div>
             <div class="chips">
-              <span>construct alignment</span>
+              <span>template fit</span>
               <span>single signal</span>
+              <span>variable diversity</span>
               <span>language fit</span>
-              <span>scale fit</span>
-              <span>fairness</span>
+              <span>expert review</span>
             </div>
           </div>
         </section>
@@ -465,27 +208,34 @@
       };
     }
 
-    function promptFor(count, excluded) {
-      const context = {
-        construct: $("construct").value.trim(),
-        ksa: $("ksa").value.trim(),
-        evidence_claim: $("claim").value.trim(),
-        generation_brief: $("brief").value.trim(),
-        response_scale: $("scale").value.split(" | "),
-        excluded_items: excluded,
-        candidate_count: count
+    function parentTemplate() {
+      return {
+        name: $("template-name").value.trim(),
+        measurement_focus: $("measurement-focus").value.trim(),
+        stem_frame: $("stem-frame").value.trim(),
+        situation_domain: $("situation-domain").value.trim(),
+        response_domain: $("response-domain").value.trim(),
+        constraints: $("constraints").value.trim(),
+        response_scale: $("scale").value.split(" | ")
       };
-      return `You generate Korean assessment item candidates for expert review before pilot administration.
+    }
+
+    function promptFor(count, excluded) {
+      const template = parentTemplate();
+      return `You generate Korean assessment item candidates from a parent item template.
 Generate exactly ${count} items.
-Preserve the construct, KSA, and evidence claim supplied below.
-Each item must use one concrete situation and one response signal.
-Use a genuinely different situation and wording for each item.
-Do not repeat or lightly paraphrase any excluded item.
+Use the parent template as the source of all items.
+Preserve the stem frame, measurement focus, variable domains, and constraints.
+Each item must instantiate one concrete situation and one single response signal.
+Do not repeat or lightly paraphrase excluded items.
 Do not claim empirical validity, reliability, IRT calibration, or DIF evidence.
 Return only the requested JSON.
 
-Approved design context:
-${JSON.stringify(context, null, 2)}`;
+Parent template:
+${JSON.stringify(template, null, 2)}
+
+Excluded items:
+${JSON.stringify(excluded, null, 2)}`;
     }
 
     async function callGemini(key, count, excluded) {
@@ -540,9 +290,12 @@ ${JSON.stringify(context, null, 2)}`;
     $("generate").addEventListener("click", async () => {
       const key = $("key").value.trim();
       const count = Math.max(1, Math.min(30, Number($("count").value) || 10));
+      const template = parentTemplate();
       if (!key) return setStatus("Google AI Studio API 키를 입력하세요.", true);
       syncRememberedKey();
-      if (!$("construct").value.trim() || !$("claim").value.trim()) return setStatus("측정 구인과 증거 주장을 입력하세요.", true);
+      if (!template.measurement_focus || !template.stem_frame || !template.situation_domain || !template.response_domain) {
+        return setStatus("측정 초점, 문항 틀, 상황 변수, 반응 변수를 입력하세요.", true);
+      }
       $("generate").disabled = true;
       $("download").disabled = true;
       state.items = [];
@@ -553,15 +306,11 @@ ${JSON.stringify(context, null, 2)}`;
           const batch = await callGemini(key, remaining, state.items);
           state.items.push(...unique(batch, state.items));
         }
-        if (state.items.length < count) throw new Error(`중복 제거 후 ${state.items.length}개만 남았습니다. 생성 조건을 더 구체화하거나 개수를 줄여 다시 시도하세요.`);
+        if (state.items.length < count) throw new Error(`중복 제거 후 ${state.items.length}개만 남았습니다. 템플릿 변수 도메인을 더 구체화하거나 개수를 줄여 다시 시도하세요.`);
         state.items = state.items.slice(0, count).map((item, index) => ({
           id: `LLM-${String(index + 1).padStart(3, "0")}`,
           ...item,
-          lineage: {
-            construct: $("construct").value.trim(),
-            ksa: $("ksa").value.trim(),
-            evidence_claim: $("claim").value.trim()
-          },
+          parent_template: template,
           status: "expert_review_required"
         }));
         render(state.items);
