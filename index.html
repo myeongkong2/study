@@ -4,434 +4,204 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ECD-AIG</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: "#ecfdf8",
+              100: "#d1faee",
+              600: "#0d9488",
+              700: "#0f766e",
+              900: "#134e4a"
+            }
+          }
+        }
+      }
+    };
+  </script>
   <style>
-    :root {
-      color-scheme: light;
-      --bg: #f6f8fb;
-      --panel: #ffffff;
-      --ink: #121826;
-      --muted: #667085;
-      --line: #e3e8ef;
-      --line-strong: #cbd5e1;
-      --primary: #0f766e;
-      --primary-ink: #0b4f4a;
-      --soft: #effaf8;
-      --blue: #315b8c;
-      --amber: #b7791f;
-      --red: #b42318;
-      --shadow: 0 18px 45px rgba(18, 24, 38, .08), 0 1px 2px rgba(18, 24, 38, .04);
+    .keep-korean { word-break: keep-all; overflow-wrap: normal; }
+    .soft-grid {
+      background-image:
+        linear-gradient(rgba(15, 118, 110, .06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 118, 110, .06) 1px, transparent 1px);
+      background-size: 34px 34px;
     }
-
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at 18% 0%, rgba(15, 118, 110, .10), transparent 34%),
-        linear-gradient(180deg, #f9fbfd 0%, var(--bg) 34%, #ffffff 100%);
-      color: var(--ink);
-      font: 14px/1.55 Arial, sans-serif;
-    }
-
-    button, input, textarea, select { font: inherit; }
-    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 24px 0 18px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      font-size: 18px;
-      letter-spacing: 0;
-    }
-    .mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--primary), var(--blue));
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), 0 9px 18px rgba(15,118,110,.18);
-    }
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
-      padding: 5px 10px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255,255,255,.82);
-      white-space: nowrap;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 20px;
-      align-items: start;
-      padding: 12px 0 24px;
-    }
-    h1 {
-      max-width: 100%;
-      margin: 0;
-      font-size: clamp(28px, 3.4vw, 44px);
-      line-height: 1.18;
-      letter-spacing: 0;
-      word-break: keep-all;
-      overflow-wrap: normal;
-    }
-    .hero p {
-      max-width: 760px;
-      margin: 14px 0 0;
-      color: var(--muted);
-      font-size: 16px;
-      word-break: keep-all;
-    }
-    .mini-flow {
-      display: grid;
-      grid-auto-flow: column;
-      align-items: center;
-      justify-self: start;
-      gap: 8px;
-      padding: 10px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: rgba(255,255,255,.9);
-      box-shadow: 0 8px 24px rgba(18,24,38,.06);
-    }
-    .flow-step {
-      display: grid;
-      place-items: center;
-      min-width: 82px;
-      min-height: 54px;
-      padding: 8px;
-      border-radius: 10px;
-      background: #f8fafc;
-      color: #344054;
-      font-weight: 700;
-      text-align: center;
-      font-size: 12px;
-    }
-    .flow-arrow {
-      width: 18px;
-      height: 2px;
-      background: var(--primary);
-      position: relative;
-    }
-    .flow-arrow::after {
+    .flow-line::after {
       content: "";
       position: absolute;
-      right: -1px;
-      top: -4px;
-      border-left: 7px solid var(--primary);
-      border-top: 5px solid transparent;
-      border-bottom: 5px solid transparent;
+      left: 50%;
+      top: 100%;
+      width: 2px;
+      height: 22px;
+      background: #99f6e4;
     }
-
-    main {
-      display: grid;
-      grid-template-columns: minmax(360px, 440px) minmax(0, 1fr);
-      gap: 20px;
-      padding-bottom: 38px;
-    }
-    .card {
-      background: rgba(255,255,255,.96);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-    .card-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 18px 20px 14px;
-      border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, #ffffff, #fbfcfe);
-    }
-    h2 { margin: 0; font-size: 18px; letter-spacing: 0; }
-    .hint { margin: 5px 0 0; color: var(--muted); }
-    .card-body { padding: 20px; }
-
-    label {
-      display: block;
-      margin-top: 14px;
-      color: #344054;
-      font-weight: 700;
-    }
-    label:first-child { margin-top: 0; }
-    input, textarea, select {
-      width: 100%;
-      margin-top: 7px;
-      padding: 11px 12px;
-      border: 1px solid var(--line-strong);
-      border-radius: 10px;
-      background: #fff;
-      color: var(--ink);
-      box-shadow: inset 0 1px 1px rgba(18, 24, 38, .03);
-    }
-    textarea { min-height: 90px; resize: vertical; }
-    input:focus, textarea:focus, select:focus {
-      outline: 4px solid rgba(15, 118, 110, .13);
-      border-color: var(--primary);
-    }
-    .check {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 10px;
-      color: var(--muted);
-      font-weight: 400;
-    }
-    .check input { width: auto; margin: 0; }
-    .row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 112px;
-      gap: 12px;
-    }
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-    button {
-      min-height: 42px;
-      border: 0;
-      border-radius: 12px;
-      padding: 10px 15px;
-      color: #fff;
-      background: var(--primary);
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 12px 20px rgba(15,118,110,.18);
-    }
-    button:hover { background: var(--primary-ink); }
-    button:disabled { cursor: wait; opacity: .55; }
-    .secondary {
-      color: #344054;
-      background: #fff;
-      border: 1px solid var(--line-strong);
-      box-shadow: none;
-    }
-    .secondary:hover { background: #f8fafc; }
-    .notice {
-      margin: 16px 0 0;
-      padding: 11px 12px;
-      border: 1px solid #f2d298;
-      border-radius: 12px;
-      background: #fff8e8;
-      color: #70480b;
-    }
-
-    .results {
-      display: grid;
-      gap: 16px;
-    }
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .metric {
-      min-height: 82px;
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: rgba(255,255,255,.94);
-      box-shadow: 0 8px 24px rgba(18,24,38,.05);
-    }
-    .metric span { color: var(--muted); font-size: 12px; }
-    .metric strong { display: block; margin-top: 6px; font-size: 19px; }
-    .status { margin: 0; color: var(--muted); }
-    .status.error { color: var(--red); }
-    .empty {
-      min-height: 360px;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      border: 1px dashed var(--line-strong);
-      border-radius: 16px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.95), rgba(248,250,252,.9));
-      color: var(--muted);
-      text-align: center;
-    }
-    .table-wrap { overflow: auto; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-    th, td {
-      padding: 12px 10px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-    }
-    th {
-      background: #f8fafc;
-      color: #475467;
-      font-size: 12px;
-    }
-    th:first-child, td:first-child { width: 84px; }
-    th:last-child, td:last-child { width: 34%; }
-    code { color: #344054; white-space: pre-wrap; word-break: break-word; }
-
-    .review {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-    }
-    .review span {
-      padding: 7px 10px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
-      color: #344054;
-      font-size: 12px;
-    }
-
-    @media (max-width: 940px) {
-      .hero, main { grid-template-columns: 1fr; }
-      .mini-flow { justify-self: start; grid-auto-flow: row; width: min(100%, 360px); }
-      .flow-arrow {
-        width: 2px;
-        height: 16px;
-        margin: 0 auto;
+    @media (min-width: 768px) {
+      .flow-line::after {
+        left: 100%;
+        top: 50%;
+        width: 34px;
+        height: 2px;
       }
-      .flow-arrow::after {
-        right: -4px;
-        top: auto;
-        bottom: -1px;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 7px solid var(--primary);
-        border-bottom: 0;
-      }
-    }
-    @media (max-width: 620px) {
-      .shell { width: min(100% - 24px, 1180px); }
-      header { align-items: flex-start; flex-direction: column; }
-      .top-actions { flex-wrap: wrap; }
-      .row, .metrics { grid-template-columns: 1fr; }
-      h1 { font-size: 28px; }
-      .card-body { padding: 16px; }
-      th:last-child, td:last-child { width: 38%; }
     }
   </style>
 </head>
-<body>
-  <div class="shell">
-    <header>
-      <div class="brand">
-        <span class="mark"></span>
-        <span>ECD-AIG</span>
+<body class="min-h-screen bg-slate-50 text-slate-950">
+  <div class="absolute inset-x-0 top-0 -z-10 h-80 bg-gradient-to-b from-teal-50 via-sky-50 to-slate-50"></div>
+  <div class="mx-auto min-h-screen w-full max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
+    <header class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex items-center gap-3">
+        <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-500 to-sky-700 shadow-lg shadow-teal-200">
+          <span class="text-sm font-black text-white">EA</span>
+        </div>
+        <div>
+          <p class="text-lg font-black tracking-tight text-slate-950">ECD-AIG</p>
+          <p class="text-sm text-slate-500">Evidence-centered item generation</p>
+        </div>
       </div>
-      <div class="top-actions">
-        <span class="pill">Gemini 2.5 Flash</span>
-        <span class="pill">Pre-response</span>
+      <div class="flex flex-wrap gap-2">
+        <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm ring-1 ring-slate-200">Flowbite UI</span>
+        <span class="rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700 ring-1 ring-teal-100">Gemini 2.5 Flash</span>
+        <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 ring-1 ring-amber-100">Pre-response</span>
       </div>
     </header>
 
-    <section class="hero">
-      <div>
-        <h1>증거 중심으로 후보 문항을 생성합니다.</h1>
-        <p>구인, KSA, 증거 주장을 먼저 고정하고 LLM은 그 안에서 후보만 만듭니다. 경험적 검증은 응답자료 수집 이후 단계로 남겨둡니다.</p>
-      </div>
-      <div class="mini-flow" aria-label="ECD-AIG workflow">
-        <div class="flow-step">ECD</div>
-        <div class="flow-arrow"></div>
-        <div class="flow-step">Generate</div>
-        <div class="flow-arrow"></div>
-        <div class="flow-step">Review</div>
+    <section class="mb-6 overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-xl shadow-slate-200/60">
+      <div class="grid gap-0 lg:grid-cols-[1.08fr_.92fr]">
+        <div class="p-6 sm:p-8 lg:p-10">
+          <div class="mb-5 inline-flex items-center gap-2 rounded-full bg-teal-50 px-3 py-1 text-xs font-bold text-teal-700 ring-1 ring-teal-100">
+            Design-time validation
+          </div>
+          <h1 class="keep-korean max-w-4xl text-4xl font-black tracking-tight text-slate-950 sm:text-5xl lg:text-5xl">
+            증거 중심 후보 문항 생성기
+          </h1>
+          <p class="keep-korean mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+            구인과 증거 주장을 먼저 고정하고, LLM은 그 경계 안에서만 후보 문항을 생성합니다.
+          </p>
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a href="#generator" class="inline-flex items-center rounded-xl bg-teal-700 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-teal-200 hover:bg-teal-800">
+              문항 생성하기
+            </a>
+            <span class="inline-flex items-center rounded-xl bg-slate-100 px-5 py-3 text-sm font-bold text-slate-600">
+              응답자료 전 단계
+            </span>
+          </div>
+        </div>
+        <div class="soft-grid border-t border-slate-200 bg-slate-900 p-6 sm:p-8 lg:border-l lg:border-t-0">
+          <div class="rounded-3xl bg-white/95 p-5 shadow-2xl">
+            <p class="mb-4 text-sm font-black text-slate-900">Generation path</p>
+            <div class="grid gap-8 md:grid-cols-3 md:gap-10">
+              <div class="flow-line relative rounded-2xl border border-teal-100 bg-teal-50 p-4">
+                <p class="text-xs font-bold text-teal-700">01</p>
+                <p class="mt-1 font-black text-slate-950">ECD</p>
+                <p class="mt-1 text-xs text-slate-500">construct · KSA</p>
+              </div>
+              <div class="flow-line relative rounded-2xl border border-sky-100 bg-sky-50 p-4">
+                <p class="text-xs font-bold text-sky-700">02</p>
+                <p class="mt-1 font-black text-slate-950">Generate</p>
+                <p class="mt-1 text-xs text-slate-500">candidate items</p>
+              </div>
+              <div class="rounded-2xl border border-amber-100 bg-amber-50 p-4">
+                <p class="text-xs font-bold text-amber-700">03</p>
+                <p class="mt-1 font-black text-slate-950">Review</p>
+                <p class="mt-1 text-xs text-slate-500">expert required</p>
+              </div>
+            </div>
+            <div class="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+              신뢰도, IRT, DIF는 실제 응답자료 수집 이후 수행합니다.
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <main>
-      <section class="card">
-        <div class="card-head">
-          <div>
-            <h2>생성 조건</h2>
-            <p class="hint">필요한 정보만 입력하세요.</p>
-          </div>
+    <main id="generator" class="grid gap-6 lg:grid-cols-[430px_minmax(0,1fr)]">
+      <section class="rounded-[24px] border border-slate-200 bg-white shadow-lg shadow-slate-200/60">
+        <div class="border-b border-slate-100 px-6 py-5">
+          <h2 class="text-xl font-black tracking-tight text-slate-950">생성 조건</h2>
+          <p class="mt-1 text-sm text-slate-500">필요한 정보만 입력하세요.</p>
         </div>
-        <div class="card-body">
-          <label for="key">Google AI Studio API 키</label>
-          <input id="key" type="password" autocomplete="off" placeholder="이 브라우저에서만 사용">
-          <label class="check" for="remember-key">
-            <input id="remember-key" type="checkbox">
+        <div class="px-6 py-5">
+          <label for="key" class="mb-2 block text-sm font-bold text-slate-700">Google AI Studio API 키</label>
+          <input id="key" type="password" autocomplete="off" placeholder="이 브라우저에서만 사용" class="block w-full rounded-xl border border-slate-300 bg-slate-50 p-3 text-sm text-slate-900 focus:border-teal-600 focus:ring-teal-600">
+          <label class="mt-3 flex items-center gap-2 text-sm text-slate-500" for="remember-key">
+            <input id="remember-key" type="checkbox" class="h-4 w-4 rounded border-slate-300 bg-slate-100 text-teal-600 focus:ring-teal-500">
             이 브라우저에 API 키 기억하기
           </label>
 
-          <label for="construct">측정 구인</label>
-          <input id="construct" value="업무 상황에서 경험하는 걱정">
+          <label for="construct" class="mb-2 mt-5 block text-sm font-bold text-slate-700">측정 구인</label>
+          <input id="construct" value="업무 상황에서 경험하는 걱정" class="block w-full rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-900 focus:border-teal-600 focus:ring-teal-600">
 
-          <label for="ksa">KSA 또는 하위 특성</label>
-          <input id="ksa" value="업무 부담 상황에서 나타나는 걱정 반응">
+          <label for="ksa" class="mb-2 mt-5 block text-sm font-bold text-slate-700">KSA 또는 하위 특성</label>
+          <input id="ksa" value="업무 부담 상황에서 나타나는 걱정 반응" class="block w-full rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-900 focus:border-teal-600 focus:ring-teal-600">
 
-          <label for="claim">증거 주장</label>
-          <textarea id="claim">응답자는 서로 다른 구체적 업무 상황에서 경험하는 단일 걱정 반응의 정도를 보고할 수 있다.</textarea>
+          <label for="claim" class="mb-2 mt-5 block text-sm font-bold text-slate-700">증거 주장</label>
+          <textarea id="claim" rows="3" class="block w-full rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-900 focus:border-teal-600 focus:ring-teal-600">응답자는 서로 다른 구체적 업무 상황에서 경험하는 단일 걱정 반응의 정도를 보고할 수 있다.</textarea>
 
-          <label for="brief">문항 생성 조건</label>
-          <textarea id="brief">서로 다른 구체적 업무 상황을 사용한다. 한 문항에는 한 가지 상황과 한 가지 감정 반응만 포함한다. 문항 간 표현과 맥락을 반복하지 않는다.</textarea>
+          <label for="brief" class="mb-2 mt-5 block text-sm font-bold text-slate-700">문항 생성 조건</label>
+          <textarea id="brief" rows="4" class="block w-full rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-900 focus:border-teal-600 focus:ring-teal-600">서로 다른 구체적 업무 상황을 사용한다. 한 문항에는 한 가지 상황과 한 가지 감정 반응만 포함한다. 문항 간 표현과 맥락을 반복하지 않는다.</textarea>
 
-          <div class="row">
-            <label for="scale">응답 척도
-              <select id="scale">
+          <div class="mt-5 grid gap-3 sm:grid-cols-[1fr_112px]">
+            <label for="scale" class="block text-sm font-bold text-slate-700">응답 척도
+              <select id="scale" class="mt-2 block w-full rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-900 focus:border-teal-600 focus:ring-teal-600">
                 <option>전혀 그렇지 않다 | 그렇지 않다 | 보통이다 | 그렇다 | 매우 그렇다</option>
                 <option>전혀 아니다 | 약간 아니다 | 보통이다 | 약간 그렇다 | 매우 그렇다</option>
               </select>
             </label>
-            <label for="count">생성 개수
-              <input id="count" type="number" min="1" max="30" value="10">
+            <label for="count" class="block text-sm font-bold text-slate-700">개수
+              <input id="count" type="number" min="1" max="30" value="10" class="mt-2 block w-full rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-900 focus:border-teal-600 focus:ring-teal-600">
             </label>
           </div>
 
-          <div class="actions">
-            <button id="generate">후보 문항 생성</button>
-            <button id="download" class="secondary" disabled>JSON 저장</button>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button id="generate" type="button" class="rounded-xl bg-teal-700 px-5 py-3 text-sm font-black text-white shadow-lg shadow-teal-200 hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-200">
+              후보 문항 생성
+            </button>
+            <button id="download" type="button" disabled class="rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-black text-slate-700 hover:bg-slate-50 disabled:opacity-50">
+              JSON 저장
+            </button>
           </div>
-          <p class="notice">API 키는 GitHub로 전송하지 않습니다. 기억하기를 선택하면 이 브라우저에 저장됩니다.</p>
+          <p class="mt-4 rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800 ring-1 ring-amber-100">
+            API 키는 GitHub로 전송하지 않습니다. 기억하기를 선택하면 이 브라우저에 저장됩니다.
+          </p>
         </div>
       </section>
 
-      <section class="results">
-        <div class="metrics">
-          <div class="metric"><span>Boundary</span><strong>Design-time</strong></div>
-          <div class="metric"><span>Evidence</span><strong>Pre-response</strong></div>
-          <div class="metric"><span>Status</span><strong>Review needed</strong></div>
+      <section class="space-y-6">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p class="text-sm font-semibold text-slate-500">Boundary</p>
+            <p class="mt-2 text-xl font-black text-slate-950">Design-time</p>
+          </div>
+          <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p class="text-sm font-semibold text-slate-500">Evidence</p>
+            <p class="mt-2 text-xl font-black text-slate-950">Pre-response</p>
+          </div>
+          <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p class="text-sm font-semibold text-slate-500">Status</p>
+            <p class="mt-2 text-xl font-black text-slate-950">Review needed</p>
+          </div>
         </div>
 
-        <section class="card">
-          <div class="card-head">
+        <section class="overflow-hidden rounded-[24px] border border-slate-200 bg-white shadow-lg shadow-slate-200/60">
+          <div class="flex flex-col gap-2 border-b border-slate-100 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2>후보 문항</h2>
-              <p id="status" class="status">생성 조건을 입력하고 버튼을 누르세요.</p>
+              <h2 class="text-xl font-black tracking-tight text-slate-950">후보 문항</h2>
+              <p id="status" class="mt-1 text-sm text-slate-500">생성 조건을 입력하고 버튼을 누르세요.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">single signal</span>
+              <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">scale fit</span>
+              <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">fairness</span>
             </div>
           </div>
-          <div class="card-body">
-            <div id="result" class="empty">생성된 문항이 여기에 표시됩니다.</div>
-            <div class="review">
-              <span>construct alignment</span>
-              <span>single signal</span>
-              <span>language fit</span>
-              <span>scale fit</span>
-              <span>fairness</span>
+          <div class="p-6">
+            <div id="result" class="grid min-h-[390px] place-items-center rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-slate-500">
+              생성된 문항이 여기에 표시됩니다.
             </div>
           </div>
         </section>
@@ -439,6 +209,7 @@
     </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
   <script>
     const $ = (id) => document.getElementById(id);
     const state = { items: [] };
@@ -544,13 +315,13 @@ ${JSON.stringify(context, null, 2)}`;
     }
 
     function render(items) {
-      const rows = items.map((item, index) => `<tr>
-        <td>LLM-${String(index + 1).padStart(3, "0")}</td>
-        <td>${escapeHtml(item.stem)}</td>
-        <td><code>${escapeHtml(item.situation)} / ${escapeHtml(item.response_signal)}</code></td>
+      const rows = items.map((item, index) => `<tr class="border-b border-slate-100 bg-white hover:bg-slate-50">
+        <td class="px-4 py-3 text-sm font-bold text-slate-600">LLM-${String(index + 1).padStart(3, "0")}</td>
+        <td class="px-4 py-3 text-sm text-slate-900">${escapeHtml(item.stem)}</td>
+        <td class="px-4 py-3 text-sm text-slate-500"><code>${escapeHtml(item.situation)} / ${escapeHtml(item.response_signal)}</code></td>
       </tr>`).join("");
-      $("result").className = "table-wrap";
-      $("result").innerHTML = `<table><thead><tr><th>ID</th><th>문항</th><th>상황 / 반응</th></tr></thead><tbody>${rows}</tbody></table>`;
+      $("result").className = "overflow-x-auto rounded-2xl border border-slate-200";
+      $("result").innerHTML = `<table class="w-full table-fixed text-left"><thead class="bg-slate-50 text-xs uppercase text-slate-500"><tr><th class="w-24 px-4 py-3">ID</th><th class="px-4 py-3">문항</th><th class="w-1/3 px-4 py-3">상황 / 반응</th></tr></thead><tbody>${rows}</tbody></table>`;
     }
 
     function escapeHtml(text) {
@@ -607,7 +378,7 @@ ${JSON.stringify(context, null, 2)}`;
 
     function setStatus(message, error = false) {
       $("status").textContent = message;
-      $("status").className = error ? "status error" : "status";
+      $("status").className = error ? "mt-1 text-sm text-red-700" : "mt-1 text-sm text-slate-500";
     }
   </script>
 </body>
