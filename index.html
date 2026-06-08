@@ -199,6 +199,21 @@
       word-break: keep-all;
     }
 
+    .advanced-api {
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+    }
+
+    .advanced-api summary {
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 800;
+      list-style-position: inside;
+    }
+
+    .advanced-api .field { margin-top: 12px; }
+
     .external-links {
       display: flex;
       flex-wrap: wrap;
@@ -420,9 +435,18 @@
               <label for="key">API 키</label>
               <input id="key" type="password" autocomplete="off" placeholder="API 키 입력">
             </div>
-            <input id="model" type="hidden" value="gemini-2.5-flash">
-            <input id="endpoint" type="hidden" value="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent">
-            <p class="mini-note">Google AI Studio API 키만 입력하면 됩니다. 연결 방식은 내부에서 처리합니다.</p>
+            <details class="advanced-api">
+              <summary>고급 연결 설정</summary>
+              <div class="field">
+                <label for="model">모델 이름</label>
+                <input id="model" value="gemini-2.5-flash">
+              </div>
+              <div class="field">
+                <label for="endpoint">API 주소</label>
+                <input id="endpoint" value="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent">
+              </div>
+            </details>
+            <p class="mini-note">보통은 API 키만 넣으면 됩니다. 다른 연결이 필요할 때만 고급 설정을 엽니다.</p>
           </div>
 
           <div class="field">
@@ -480,6 +504,8 @@
     const $ = (id) => document.getElementById(id);
     const state = { items: [] };
     const keyStorageName = "ecd-aig-api-key-v2";
+    const endpointStorageName = "ecd-aig-api-endpoint-v4";
+    const modelStorageName = "ecd-aig-api-model-v4";
     const DEFAULT_RESPONSE_SCALE = ["전혀 그렇지 않다", "그렇지 않다", "보통이다", "그렇다", "매우 그렇다"];
     const DEFAULT_CONSTRAINTS = [
       "한 문항에는 한 상황과 한 반응만 포함한다.",
@@ -489,8 +515,10 @@
     ].join(" ");
 
     const rememberedKey = localStorage.getItem(keyStorageName);
-    $("endpoint").value = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
-    $("model").value = "gemini-2.5-flash";
+    const rememberedEndpoint = localStorage.getItem(endpointStorageName);
+    const rememberedModel = localStorage.getItem(modelStorageName);
+    $("endpoint").value = rememberedEndpoint || "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+    $("model").value = rememberedModel || "gemini-2.5-flash";
     if (rememberedKey) {
       $("key").value = rememberedKey;
       $("remember-key").checked = true;
@@ -504,6 +532,8 @@
 
     $("key").addEventListener("input", syncRememberedKey);
     $("remember-key").addEventListener("change", syncRememberedKey);
+    $("endpoint").addEventListener("input", () => localStorage.setItem(endpointStorageName, $("endpoint").value.trim()));
+    $("model").addEventListener("input", () => localStorage.setItem(modelStorageName, $("model").value.trim()));
 
     function normalize(text) {
       return String(text || "").replace(/\s+/g, "").toLowerCase();
