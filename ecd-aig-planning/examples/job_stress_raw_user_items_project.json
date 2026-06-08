@@ -1,0 +1,37 @@
+{
+  "id": "job_stress_raw_15",
+  "title": "직무 스트레스 Raw 15문항",
+  "constructs": [{"id": "construct_work_stress", "name": "직무 스트레스"}],
+  "ksas": [{"id": "ksa_workload_strain", "construct_id": "construct_work_stress", "name": "업무부담 긴장 반응"}],
+  "evidence_claims": [{"id": "claim_workload_strain", "ksa_id": "ksa_workload_strain", "claim": "업무 상황에서 부담 반응을 보고한다."}],
+  "task_models": [{"id": "task_self_report_likert", "name": "5점 Likert 자기보고"}],
+  "parent_templates": [{"id": "tpl_raw_001", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "stem_template": "{stem}", "variables": {}}],
+  "response_scale": {
+    "type": "5점 Likert",
+    "anchors": [
+      {"score": 1, "label": "전혀 그렇지 않다"},
+      {"score": 2, "label": "그렇지 않다"},
+      {"score": 3, "label": "보통이다"},
+      {"score": 4, "label": "그렇다"},
+      {"score": 5, "label": "매우 그렇다"}
+    ]
+  },
+  "items": [
+    {"id": "RAW-001", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "나는 회사에서 일이 많고 상사가 재촉하고 동료가 도와주지 않을 때 항상 매우 심하게 힘들다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-002", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "업무가 많으면 스트레스를 받습니까?", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-003", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "나는 업무량 및 관계 문제가 동시에 생기면 자주 부담스럽다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-004", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "나는 성별 때문에 업무 스트레스를 느낀다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-005", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "나는 일이 많고 어렵고 급하면 대체로 많이 힘들다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-006", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "나는 일이 많거나 시간이 부족하면 항상 압박을 느낀다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-007", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "나는 업무와 사람 문제가 같이 생기면 많이 지친다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-008", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "업무 스트레스가 높다고 생각하나요?", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-009", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "나는 나이 때문에 일이 더 부담스럽다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-010", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "나는 일이 끝나지 않고 회의도 많으면 가끔 부담을 느낀다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-011", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "나는 업무가 많지 않지 않다고 느낀다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-012", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "나는 보고서 작성 및 고객 대응 때문에 자주 힘들다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-013", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "나는 업무량이 충분히 관리되지 않으면 심하게 압박된다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-014", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "나는 종교와 상관없이 업무량 때문에 힘들다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}},
+    {"id": "RAW-015", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_raw_001", "variables": {}, "stem": "나는 일이 빠르게 변하고 요청도 많으면 대체로 부담스럽다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}}
+  ],
+  "reviews": []
+}

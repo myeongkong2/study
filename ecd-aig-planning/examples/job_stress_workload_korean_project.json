@@ -1,0 +1,13 @@
+{
+  "id": "job_stress_workload_korean",
+  "title": "한국어 업무부담 문항 후보 예제",
+  "constructs": [{"id": "construct_work_stress", "name": "직무 스트레스"}],
+  "ksas": [{"id": "ksa_workload_strain", "construct_id": "construct_work_stress", "name": "업무부담 반응"}],
+  "evidence_claims": [{"id": "claim_workload_strain", "ksa_id": "ksa_workload_strain", "claim": "업무부담 상황에서 부정 정서를 보고한다."}],
+  "task_models": [{"id": "task_self_report_likert", "name": "5점 Likert 자기보고"}],
+  "parent_templates": [{"id": "tpl_workload_001", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "stem_template": "나는 {work_situation} {negative_response}을 느낀다.", "variables": {"work_situation": ["업무량이 늘어날 때"], "negative_response": ["부담감"]}}],
+  "response_scale": {"type": "5점 Likert", "anchors": [{"score": 1, "label": "전혀 그렇지 않다"}, {"score": 2, "label": "그렇지 않다"}, {"score": 3, "label": "보통이다"}, {"score": 4, "label": "그렇다"}, {"score": 5, "label": "매우 그렇다"}]},
+  "items": [{"id": "KOR-001", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_workload_001", "variables": {"work_situation": "업무량이 늘어날 때", "negative_response": "부담감"}, "stem": "나는 업무량이 늘어날 때 부담감을 느낀다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}}],
+  "reviews": []
+}
+

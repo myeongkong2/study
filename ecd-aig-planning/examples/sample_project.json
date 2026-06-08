@@ -1,0 +1,36 @@
+{
+  "id": "sample_project",
+  "title": "Sample ECD-AIG Project",
+  "constructs": [{"id": "construct_worry", "name": "업무 걱정"}],
+  "ksas": [{"id": "ksa_worry_response", "construct_id": "construct_worry", "name": "업무 상황 걱정 반응"}],
+  "evidence_claims": [{"id": "claim_worry_response", "ksa_id": "ksa_worry_response", "claim": "업무 상황에서 걱정 반응을 보고한다."}],
+  "task_models": [{"id": "task_self_report_likert", "name": "5점 Likert 자기보고"}],
+  "parent_templates": [
+    {
+      "id": "tpl_worry_001",
+      "construct_id": "construct_worry",
+      "ksa_id": "ksa_worry_response",
+      "evidence_claim_id": "claim_worry_response",
+      "task_model_id": "task_self_report_likert",
+      "stem_template": "나는 {work_situation} {negative_response}을 느낀다.",
+      "rationale": "상황별 걱정 반응 동의 정도를 확인한다.",
+      "variables": {
+        "work_situation": ["업무량이 갑자기 늘어날 때", "중요한 보고를 앞두고"],
+        "negative_response": ["걱정", "불안"]
+      }
+    }
+  ],
+  "response_scale": {
+    "type": "5점 Likert",
+    "anchors": [
+      {"score": 1, "label": "전혀 그렇지 않다"},
+      {"score": 2, "label": "그렇지 않다"},
+      {"score": 3, "label": "보통이다"},
+      {"score": 4, "label": "그렇다"},
+      {"score": 5, "label": "매우 그렇다"}
+    ]
+  },
+  "items": [],
+  "reviews": []
+}
+

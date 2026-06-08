@@ -1,0 +1,10 @@
+{
+  "id": "import_without_lineage",
+  "title": "Imported candidate without declared lineage",
+  "items": [
+    {
+      "id": "IMP-001",
+      "stem": "I feel pressure when work accumulates."
+    }
+  ]
+}

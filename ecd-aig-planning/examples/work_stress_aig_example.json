@@ -1,0 +1,13 @@
+{
+  "id": "work_stress_aig_example",
+  "title": "기존 직무 스트레스 AIG 예제",
+  "constructs": [{"id": "construct_work_stress", "name": "직무 스트레스"}],
+  "ksas": [{"id": "ksa_deadline_pressure", "construct_id": "construct_work_stress", "name": "마감 압박 반응"}],
+  "evidence_claims": [{"id": "claim_deadline_pressure", "ksa_id": "ksa_deadline_pressure", "claim": "마감 상황에서 압박 반응을 보고한다."}],
+  "task_models": [{"id": "task_self_report_likert", "name": "5점 Likert 자기보고"}],
+  "parent_templates": [{"id": "tpl_deadline_001", "construct_id": "construct_work_stress", "ksa_id": "ksa_deadline_pressure", "evidence_claim_id": "claim_deadline_pressure", "task_model_id": "task_self_report_likert", "stem_template": "나는 {work_situation} {negative_response}을 느낀다.", "variables": {"work_situation": ["마감 기한이 가까워질 때"], "negative_response": ["압박감"]}}],
+  "response_scale": {"type": "5점 Likert", "anchors": [{"score": 1, "label": "전혀 그렇지 않다"}, {"score": 2, "label": "그렇지 않다"}, {"score": 3, "label": "보통이다"}, {"score": 4, "label": "그렇다"}, {"score": 5, "label": "매우 그렇다"}]},
+  "items": [],
+  "reviews": []
+}
+

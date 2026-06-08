@@ -1,0 +1,84 @@
+{
+  "id": "job_stress_workload_12",
+  "title": "직무 스트레스 업무부담 Controlled 12문항",
+  "constructs": [{"id": "construct_work_stress", "name": "직무 스트레스"}],
+  "ksas": [
+    {"id": "ksa_deadline_pressure", "construct_id": "construct_work_stress", "name": "마감 압박 반응"},
+    {"id": "ksa_workload_strain", "construct_id": "construct_work_stress", "name": "업무량 부담 반응"},
+    {"id": "ksa_interrupt_recovery", "construct_id": "construct_work_stress", "name": "중단 후 회복 어려움"}
+  ],
+  "evidence_claims": [
+    {"id": "claim_deadline_pressure", "ksa_id": "ksa_deadline_pressure", "claim": "마감 상황에서 압박 반응을 보고한다."},
+    {"id": "claim_workload_strain", "ksa_id": "ksa_workload_strain", "claim": "업무량 증가 상황에서 부담 반응을 보고한다."},
+    {"id": "claim_interrupt_recovery", "ksa_id": "ksa_interrupt_recovery", "claim": "업무 중단 뒤 회복 어려움을 보고한다."}
+  ],
+  "task_models": [{"id": "task_self_report_likert", "name": "5점 Likert 자기보고"}],
+  "parent_templates": [
+    {
+      "id": "tpl_deadline_001",
+      "construct_id": "construct_work_stress",
+      "ksa_id": "ksa_deadline_pressure",
+      "evidence_claim_id": "claim_deadline_pressure",
+      "task_model_id": "task_self_report_likert",
+      "stem_template": "나는 {work_situation} {negative_response}을 느낀다.",
+      "variables": {
+        "work_situation": ["마감 기한이 가까워질 때", "중요한 보고를 앞둘 때", "짧은 시간 안에 결과를 내야 할 때", "여러 요청을 받을 때"],
+        "negative_response": ["압박감", "긴장감", "초조함", "부담감"]
+      }
+    },
+    {
+      "id": "tpl_workload_001",
+      "construct_id": "construct_work_stress",
+      "ksa_id": "ksa_workload_strain",
+      "evidence_claim_id": "claim_workload_strain",
+      "task_model_id": "task_self_report_likert",
+      "stem_template": "나는 {work_situation} {negative_response}을 느낀다.",
+      "variables": {
+        "work_situation": ["하루 업무량이 예상보다 늘어날 때", "처리할 일이 계속 쌓일 때", "업무 우선순위를 다시 정해야 할 때", "퇴근 전 추가 업무를 받을 때"],
+        "negative_response": ["부담감", "피로감", "긴장감", "압박감"]
+      }
+    },
+    {
+      "id": "tpl_interrupt_001",
+      "construct_id": "construct_work_stress",
+      "ksa_id": "ksa_interrupt_recovery",
+      "evidence_claim_id": "claim_interrupt_recovery",
+      "task_model_id": "task_self_report_likert",
+      "stem_template": "나는 {work_situation} {negative_response}을 느낀다.",
+      "variables": {
+        "work_situation": ["집중하던 일이 중단될 때", "예정에 없던 회의가 생길 때", "업무 흐름이 자주 끊길 때", "다시 집중해야 할 때"],
+        "negative_response": ["혼란감", "피로감", "긴장감", "부담감"]
+      }
+    }
+  ],
+  "response_scale": {
+    "type": "5점 Likert",
+    "anchors": [
+      {"score": 1, "label": "전혀 그렇지 않다"},
+      {"score": 2, "label": "그렇지 않다"},
+      {"score": 3, "label": "보통이다"},
+      {"score": 4, "label": "그렇다"},
+      {"score": 5, "label": "매우 그렇다"}
+    ]
+  },
+  "items": [
+    {"id": "JS-WB-001", "construct_id": "construct_work_stress", "ksa_id": "ksa_deadline_pressure", "evidence_claim_id": "claim_deadline_pressure", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_deadline_001", "variables": {"work_situation": "마감 기한이 가까워질 때", "negative_response": "압박감"}, "stem": "나는 마감 기한이 가까워질 때 압박감을 느낀다.", "rationale": "마감 상황의 압박 반응을 본다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}, "status": "accepted"},
+    {"id": "JS-WB-002", "construct_id": "construct_work_stress", "ksa_id": "ksa_deadline_pressure", "evidence_claim_id": "claim_deadline_pressure", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_deadline_001", "variables": {"work_situation": "중요한 보고를 앞둘 때", "negative_response": "긴장감"}, "stem": "나는 중요한 보고를 앞둘 때 긴장감을 느낀다.", "rationale": "보고 상황의 긴장 반응을 본다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}, "status": "accepted"},
+    {"id": "JS-WB-003", "construct_id": "construct_work_stress", "ksa_id": "ksa_deadline_pressure", "evidence_claim_id": "claim_deadline_pressure", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_deadline_001", "variables": {"work_situation": "짧은 시간 안에 결과를 내야 할 때", "negative_response": "초조함"}, "stem": "나는 짧은 시간 안에 결과를 내야 할 때 초조함을 느낀다.", "rationale": "시간 제약의 초조 반응을 본다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}, "status": "accepted"},
+    {"id": "JS-WB-004", "construct_id": "construct_work_stress", "ksa_id": "ksa_deadline_pressure", "evidence_claim_id": "claim_deadline_pressure", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_deadline_001", "variables": {"work_situation": "여러 요청을 받을 때", "negative_response": "부담감"}, "stem": "나는 여러 요청을 받을 때 부담감을 느낀다.", "rationale": "요청 증가 상황의 부담 반응을 본다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}, "status": "accepted"},
+    {"id": "JS-WB-005", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_workload_001", "variables": {"work_situation": "하루 업무량이 예상보다 늘어날 때", "negative_response": "부담감"}, "stem": "나는 하루 업무량이 예상보다 늘어날 때 부담감을 느낀다.", "rationale": "업무량 증가의 부담 반응을 본다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}, "status": "accepted"},
+    {"id": "JS-WB-006", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_workload_001", "variables": {"work_situation": "처리할 일이 계속 쌓일 때", "negative_response": "피로감"}, "stem": "나는 처리할 일이 계속 쌓일 때 피로감을 느낀다.", "rationale": "일 누적의 피로 반응을 본다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}, "status": "accepted"},
+    {"id": "JS-WB-007", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_workload_001", "variables": {"work_situation": "업무 우선순위를 다시 정해야 할 때", "negative_response": "긴장감"}, "stem": "나는 업무 우선순위를 다시 정해야 할 때 긴장감을 느낀다.", "rationale": "우선순위 조정의 긴장 반응을 본다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}, "status": "accepted"},
+    {"id": "JS-WB-008", "construct_id": "construct_work_stress", "ksa_id": "ksa_workload_strain", "evidence_claim_id": "claim_workload_strain", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_workload_001", "variables": {"work_situation": "퇴근 전 추가 업무를 받을 때", "negative_response": "압박감"}, "stem": "나는 퇴근 전 추가 업무를 받을 때 압박감을 느낀다.", "rationale": "추가 업무의 압박 반응을 본다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}, "status": "accepted"},
+    {"id": "JS-WB-009", "construct_id": "construct_work_stress", "ksa_id": "ksa_interrupt_recovery", "evidence_claim_id": "claim_interrupt_recovery", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_interrupt_001", "variables": {"work_situation": "집중하던 일이 중단될 때", "negative_response": "혼란감"}, "stem": "나는 집중하던 일이 중단될 때 혼란감을 느낀다.", "rationale": "중단 상황의 혼란 반응을 본다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}, "status": "accepted"},
+    {"id": "JS-WB-010", "construct_id": "construct_work_stress", "ksa_id": "ksa_interrupt_recovery", "evidence_claim_id": "claim_interrupt_recovery", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_interrupt_001", "variables": {"work_situation": "예정에 없던 회의가 생길 때", "negative_response": "피로감"}, "stem": "나는 예정에 없던 회의가 생길 때 피로감을 느낀다.", "rationale": "예상 밖 회의의 피로 반응을 본다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}, "status": "accepted"},
+    {"id": "JS-WB-011", "construct_id": "construct_work_stress", "ksa_id": "ksa_interrupt_recovery", "evidence_claim_id": "claim_interrupt_recovery", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_interrupt_001", "variables": {"work_situation": "업무 흐름이 자주 끊길 때", "negative_response": "긴장감"}, "stem": "나는 업무 흐름이 중단될 때 긴장감을 느낀다.", "rationale": "흐름 중단의 긴장 반응을 본다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}, "status": "accepted"},
+    {"id": "JS-WB-012", "construct_id": "construct_work_stress", "ksa_id": "ksa_interrupt_recovery", "evidence_claim_id": "claim_interrupt_recovery", "task_model_id": "task_self_report_likert", "parent_template_id": "tpl_interrupt_001", "variables": {"work_situation": "다시 집중해야 할 때", "negative_response": "부담감"}, "stem": "나는 다시 집중해야 할 때 부담감을 느낀다.", "rationale": "재집중 상황의 부담 반응을 본다.", "scoring": {"direction": "positive", "valid_scores": [1, 2, 3, 4, 5]}, "status": "accepted"}
+  ],
+  "reviews": [
+    {"item_id": "JS-WB-001", "decision": "approve", "reviewer": "expert_a"},
+    {"item_id": "JS-WB-002", "decision": "approve", "reviewer": "expert_a"},
+    {"item_id": "JS-WB-003", "decision": "approve", "reviewer": "expert_a"},
+    {"item_id": "JS-WB-004", "decision": "approve", "reviewer": "expert_a"}
+  ]
+}

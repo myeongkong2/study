@@ -1,0 +1,13 @@
+{
+  "ratings": [
+    {"item_id": "JS-WB-001", "gold": "approve", "agent": "approve"},
+    {"item_id": "JS-WB-002", "gold": "approve", "agent": "approve"},
+    {"item_id": "JS-WB-003", "gold": "approve", "agent": "approve"},
+    {"item_id": "RAW-001", "gold": "reject", "agent": "reject"},
+    {"item_id": "RAW-002", "gold": "reject", "agent": "reject"},
+    {"item_id": "RAW-003", "gold": "reject", "agent": "revise"},
+    {"item_id": "RAW-004", "gold": "reject", "agent": "reject"},
+    {"item_id": "RAW-005", "gold": "revise", "agent": "reject"}
+  ]
+}
+
