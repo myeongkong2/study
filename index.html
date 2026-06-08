@@ -420,15 +420,9 @@
               <label for="key">API 키</label>
               <input id="key" type="password" autocomplete="off" placeholder="API 키 입력">
             </div>
-            <div class="field">
-              <label for="model">모델 이름</label>
-              <input id="model" placeholder="필요한 경우만 입력">
-            </div>
-            <div class="field wide">
-              <label for="endpoint">API 주소</label>
-              <input id="endpoint" placeholder="https://api.example.com/v1/chat/completions">
-              <p class="mini-note">브라우저에서 직접 호출 가능한 문항 생성 API 주소를 입력하세요. 별도 선택 없이 주소에 맞춰 연결합니다.</p>
-            </div>
+            <input id="model" type="hidden" value="gemini-2.5-flash">
+            <input id="endpoint" type="hidden" value="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent">
+            <p class="mini-note">Google AI Studio API 키만 입력하면 됩니다. 연결 방식은 내부에서 처리합니다.</p>
           </div>
 
           <div class="field">
@@ -486,8 +480,6 @@
     const $ = (id) => document.getElementById(id);
     const state = { items: [] };
     const keyStorageName = "ecd-aig-api-key-v2";
-    const endpointStorageName = "ecd-aig-api-endpoint-v2";
-    const modelStorageName = "ecd-aig-api-model-v2";
     const DEFAULT_RESPONSE_SCALE = ["전혀 그렇지 않다", "그렇지 않다", "보통이다", "그렇다", "매우 그렇다"];
     const DEFAULT_CONSTRAINTS = [
       "한 문항에는 한 상황과 한 반응만 포함한다.",
@@ -497,10 +489,8 @@
     ].join(" ");
 
     const rememberedKey = localStorage.getItem(keyStorageName);
-    const rememberedEndpoint = localStorage.getItem(endpointStorageName);
-    const rememberedModel = localStorage.getItem(modelStorageName);
-    if (rememberedEndpoint) $("endpoint").value = rememberedEndpoint;
-    $("model").value = rememberedModel || "";
+    $("endpoint").value = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+    $("model").value = "gemini-2.5-flash";
     if (rememberedKey) {
       $("key").value = rememberedKey;
       $("remember-key").checked = true;
@@ -514,8 +504,6 @@
 
     $("key").addEventListener("input", syncRememberedKey);
     $("remember-key").addEventListener("change", syncRememberedKey);
-    $("endpoint").addEventListener("input", () => localStorage.setItem(endpointStorageName, $("endpoint").value.trim()));
-    $("model").addEventListener("input", () => localStorage.setItem(modelStorageName, $("model").value.trim()));
 
     function normalize(text) {
       return String(text || "").replace(/\s+/g, "").toLowerCase();
@@ -595,7 +583,7 @@ ${JSON.stringify(excluded, null, 2)}`;
     }
 
     async function callApi(config, count, excluded) {
-      if (!config.endpoint) throw new Error("API 주소를 입력하세요.");
+      if (!config.endpoint) throw new Error("API 연결 설정을 찾지 못했습니다.");
       if (config.mode === "gemini") return callGemini(config, count, excluded);
       return callChatCompletions(config, count, excluded);
     }
