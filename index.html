@@ -81,9 +81,9 @@
 
     h1 {
       margin: 0;
-      max-width: 760px;
-      font-size: clamp(28px, 4vw, 46px);
-      line-height: 1.12;
+      max-width: 700px;
+      font-size: clamp(25px, 3.2vw, 38px);
+      line-height: 1.18;
       letter-spacing: 0;
       word-break: keep-all;
     }
@@ -121,7 +121,7 @@
 
     .workspace {
       display: grid;
-      grid-template-columns: minmax(330px, 420px) minmax(0, 1fr);
+      grid-template-columns: minmax(320px, 440px) minmax(0, 1fr);
       gap: 18px;
       align-items: start;
     }
@@ -184,11 +184,11 @@
 
     .api-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: 1fr;
       gap: 12px;
     }
 
-    .api-grid .wide { grid-column: 1 / -1; }
+    .api-grid .wide { grid-column: auto; }
 
     .mini-note {
       margin: 8px 0 0;
@@ -372,8 +372,8 @@
       .steps { width: 100%; overflow-x: auto; }
       .step { min-width: 96px; }
       .split { grid-template-columns: 1fr; }
-      .api-grid { grid-template-columns: 1fr; }
-      .api-grid .wide { grid-column: auto; }
+      h1 { font-size: 26px; }
+      .lead { font-size: 14px; }
       .panel-head { display: block; }
       .review-tools { margin-top: 10px; }
       .item-main { grid-template-columns: 1fr; gap: 7px; }
@@ -417,11 +417,11 @@
           <div class="api-grid">
             <div class="field">
               <label for="key">API 키</label>
-              <input id="key" type="password" autocomplete="off" placeholder="브라우저에서만 사용됩니다">
+              <input id="key" type="password" autocomplete="off" placeholder="API 키 입력">
             </div>
             <div class="field">
               <label for="model">모델 이름</label>
-              <input id="model" placeholder="사용하는 API에서 요구할 때 입력">
+              <input id="model" placeholder="필요한 경우만 입력">
             </div>
             <div class="field wide">
               <label for="endpoint">API 주소</label>
@@ -484,9 +484,9 @@
   <script>
     const $ = (id) => document.getElementById(id);
     const state = { items: [] };
-    const keyStorageName = "ecd-aig-api-key";
-    const endpointStorageName = "ecd-aig-api-endpoint";
-    const modelStorageName = "ecd-aig-api-model";
+    const keyStorageName = "ecd-aig-api-key-v2";
+    const endpointStorageName = "ecd-aig-api-endpoint-v2";
+    const modelStorageName = "ecd-aig-api-model-v2";
     const DEFAULT_RESPONSE_SCALE = ["전혀 그렇지 않다", "그렇지 않다", "보통이다", "그렇다", "매우 그렇다"];
     const DEFAULT_CONSTRAINTS = [
       "한 문항에는 한 상황과 한 반응만 포함한다.",
