@@ -604,11 +604,16 @@ ${JSON.stringify(excluded, null, 2)}`;
 
     function apiConfig() {
       const endpoint = $("endpoint").value.trim();
+      const model = $("model").value.trim();
+      const mode = endpoint.includes("generativelanguage.googleapis.com") || endpoint.includes(":generateContent") ? "gemini" : "chat_completions";
+      const effectiveEndpoint = mode === "gemini" && model
+        ? endpoint.replace(/\/models\/[^:]+:generateContent/, `/models/${encodeURIComponent(model)}:generateContent`)
+        : endpoint;
       return {
-        mode: endpoint.includes("generativelanguage.googleapis.com") || endpoint.includes(":generateContent") ? "gemini" : "chat_completions",
+        mode,
         key: $("key").value.trim(),
-        model: $("model").value.trim(),
-        endpoint
+        model,
+        endpoint: effectiveEndpoint
       };
     }
 

@@ -675,6 +675,13 @@ export
 → models.Project
 → CSV / JSON / prototype QTI-lite
 
+pages/index.html
+→ browser API key input
+→ internal parent-template construction
+→ Gemini or compatible API call
+→ researcher accepts candidate items
+→ JSON download
+
 tests
 → 정상 프로젝트 회귀 테스트
 → 구조 게이트별 실패 fixture
@@ -683,7 +690,38 @@ tests
 → 웹 경로 제한
 ```
 
-## 8. 반영된 보완 사항과 다음 단계
+## 8. 공유 GitHub Pages 화면 코드 해설
+
+`pages/index.html`은 파이썬 `webapp.py`와 다른 화면이다. `webapp.py`는 로컬 프로젝트 JSON을 읽어 사전점검 결과를 보여 주는 로컬 확인 서버이고, `pages/index.html`은 GitHub Pages에서 바로 열리는 후보 문항 생성 화면이다.
+
+### 핵심 UI 구조
+
+- 기본 화면에는 `API 키`, 측정 내용, 문항 맥락, 개수만 보인다.
+- `고급 연결 설정`을 열면 `모델 이름`과 `API 주소`를 수정할 수 있다.
+- 생성 결과는 오른쪽 검토 패널에 표시된다.
+- 연구자는 저장할 후보 문항만 `채택` 상태로 남긴 뒤 JSON을 내려받는다.
+
+### 핵심 JavaScript 함수
+
+| 함수 | 역할 |
+|---|---|
+| `parentTemplate()` | 화면 입력값으로 내부 부모 템플릿을 만든다 |
+| `promptFor()` | 부모 템플릿, 제외 문항, 생성 개수를 LLM 프롬프트로 만든다 |
+| `apiConfig()` | 고급 연결 설정을 읽고 Gemini 또는 Chat Completions 호출 방식을 결정한다 |
+| `callGemini()` | Google Generative Language API 형식으로 호출한다 |
+| `callChatCompletions()` | OpenAI-compatible Chat Completions 형식으로 호출한다 |
+| `unique()` | 같은 stem 또는 같은 상황/반응 조합을 제거한다 |
+| `render()` | 후보 문항과 채택 체크박스를 화면에 그린다 |
+
+### 코드 점검 포인트
+
+- `API 키`는 브라우저에서 직접 사용된다. 사용자가 체크한 경우에만 localStorage에 저장한다.
+- 기본값은 Gemini `gemini-2.5-flash`이며, 고급 설정에서 모델명을 바꾸면 Gemini 주소의 모델 경로도 함께 맞춘다.
+- GitHub Pages는 서버 프록시가 없으므로, 고급 설정에서 다른 API 주소를 넣는 경우 해당 API가 브라우저 직접 호출과 CORS를 허용해야 한다.
+- 화면에서 생성된 문항은 `expert_review_required` 상태로 저장된다. 즉, 전문가 검토 전 후보 문항이다.
+- 이 화면은 응답자료를 다루지 않는다. 심리측정 결과나 실증 타당도 주장을 만들지 않는다.
+
+## 9. 반영된 보완 사항과 다음 단계
 
 이번 버전에는 다음 보완 사항이 반영되어 있다.
 
@@ -692,7 +730,8 @@ tests
 3. `psychometrics.py`: 결측 처리 정책, complete-case 기준, 경고 임계값을 추가했다.
 4. `webapp.py`: 안전한 프로젝트 선택, DOM `textContent` 렌더링, 오류 화면을 추가했다.
 5. `export.py`: QTI-lite가 운영용 정식 QTI 패키지가 아님을 출력 메타데이터에 명시했다.
-6. 테스트: 구조 게이트별 실패 fixture와 결측 경고 테스트를 추가했다.
+6. `pages/index.html`: 기본 API 키 입력 화면과 접힌 고급 연결 설정을 분리했다.
+7. 테스트: 구조 게이트별 실패 fixture와 결측 경고 테스트를 추가했다.
 
 다음 단계에서 검토할 사항:
 
@@ -701,7 +740,7 @@ tests
 3. 운영 웹 서비스가 필요할 경우 인증, 권한관리, 프로젝트 업로드 기능
 4. 파일럿 자료 규모가 커질 경우 결측 처리 옵션과 분석 보고서 확장
 
-## 9. 가장 중요한 결론
+## 10. 가장 중요한 결론
 
 이 코드는 자동 생성 문항을 곧바로 신뢰하기 위한 코드가 아니다.
 

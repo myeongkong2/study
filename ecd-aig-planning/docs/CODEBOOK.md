@@ -238,6 +238,50 @@ py -m ecd_aig pre-response examples\job_stress_workload_12item_user_project.json
 
 > 자동 생성 문항의 타당도를 검증하였다.
 
+## 11. GitHub Pages 후보 문항 생성 화면 코드북
+
+공유 웹 화면은 `pages/index.html`과 저장소 최상단 `index.html`에 들어 있는 정적 HTML 앱이다. 별도 서버 없이 브라우저에서 직접 LLM API를 호출한다.
+
+### 화면 입력값
+
+| 화면 항목 | 의미 | 기본 동작 |
+|---|---|---|
+| `API 키` | Google AI Studio 또는 고급 설정에서 지정한 API의 키 | 기본 화면에서 바로 입력 |
+| `이 브라우저에 키 저장` | 현재 브라우저 localStorage에 키 저장 | 공용 PC에서는 사용하지 않는 것을 권장 |
+| `무엇을 측정할까요?` | 생성할 문항의 측정 초점 | 내부 부모 템플릿의 `measurement_focus`로 사용 |
+| `어떤 맥락의 문항이 필요한가요?` | 문항 상황 도메인 | 문항마다 다른 구체적 상황을 요구하는 프롬프트로 사용 |
+| `개수` | 생성할 후보 문항 수 | 1-30개 |
+| `고급 연결 설정` | 모델 이름과 API 주소 | 기본은 접혀 있음 |
+
+기본 사용자는 `API 키`, 측정 내용, 맥락, 개수만 입력하면 된다. `고급 연결 설정`은 다른 모델 또는 다른 브라우저 호출 가능 API를 붙일 때만 연다.
+
+### 고급 연결 설정
+
+기본값은 다음과 같다.
+
+```text
+model = gemini-2.5-flash
+endpoint = https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent
+```
+
+Gemini 계열 주소를 사용할 때는 `모델 이름`을 바꾸면 호출 주소의 `/models/...:generateContent` 부분도 같은 모델명으로 맞춰진다. 그 외 주소는 OpenAI-compatible Chat Completions 형식으로 호출한다.
+
+### 생성 결과 저장 방식
+
+생성된 문항은 곧바로 최종 문항이 아니다. 화면 오른쪽에서 연구자가 저장할 문항만 `채택`으로 남기고, 필요하면 `검토 메모`를 적는다. 저장 버튼은 채택된 후보만 JSON으로 내려받는다.
+
+저장 JSON에는 다음 정보가 포함된다.
+
+| 필드 | 의미 |
+|---|---|
+| `parent_template` | 화면 입력값에서 자동 구성된 내부 부모 템플릿 |
+| `generation_api` | 사용한 호출 방식, 모델, API 주소 |
+| `status` | `expert_review_required` |
+| `researcher_decision` | 저장 시 `accepted` |
+| `researcher_note` | 연구자 검토 메모 |
+
+이 화면에서 저장한 JSON 역시 응답자료 전 후보 문항 기록이다. 신뢰도, 요인구조, IRT, DIF 또는 운영 타당도 근거로 해석하지 않는다.
+
 ## Appendix: Gemini LLM candidate generation
 
 Set the Google AI Studio API key in the environment and create a working copy.
