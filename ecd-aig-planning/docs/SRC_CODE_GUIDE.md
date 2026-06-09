@@ -678,7 +678,7 @@ export
 pages/index.html
 → browser API key input
 → internal parent-template construction
-→ Gemini or compatible API call
+→ Gemini / OpenAI / Claude API call
 → researcher accepts candidate items
 → JSON download
 
@@ -697,7 +697,8 @@ tests
 ### 핵심 UI 구조
 
 - 기본 화면에는 `API 키`, 측정 내용, 문항 맥락, 개수만 보인다.
-- `고급 연결 설정`을 열면 `모델 이름`과 `API 주소`를 수정할 수 있다.
+- `사용할 API`에서 `Gemini`, `OpenAI`, `Claude` 중 하나를 선택한다.
+- `모델 설정`을 열면 모델 이름만 수정할 수 있다. API 주소는 사용자가 직접 입력하지 않는다.
 - 생성 결과는 오른쪽 검토 패널에 표시된다.
 - 연구자는 저장할 후보 문항만 `채택` 상태로 남긴 뒤 JSON을 내려받는다.
 
@@ -707,17 +708,19 @@ tests
 |---|---|
 | `parentTemplate()` | 화면 입력값으로 내부 부모 템플릿을 만든다 |
 | `promptFor()` | 부모 템플릿, 제외 문항, 생성 개수를 LLM 프롬프트로 만든다 |
-| `apiConfig()` | 고급 연결 설정을 읽고 Gemini 또는 Chat Completions 호출 방식을 결정한다 |
+| `apiConfig()` | 선택한 제공자와 모델명으로 내부 API 설정을 만든다 |
 | `callGemini()` | Google Generative Language API 형식으로 호출한다 |
-| `callChatCompletions()` | OpenAI-compatible Chat Completions 형식으로 호출한다 |
+| `callOpenAI()` | OpenAI Chat Completions 형식으로 호출한다 |
+| `callClaude()` | Anthropic Messages API 형식으로 호출한다 |
 | `unique()` | 같은 stem 또는 같은 상황/반응 조합을 제거한다 |
 | `render()` | 후보 문항과 채택 체크박스를 화면에 그린다 |
 
 ### 코드 점검 포인트
 
 - `API 키`는 브라우저에서 직접 사용된다. 사용자가 체크한 경우에만 localStorage에 저장한다.
-- 기본값은 Gemini `gemini-2.5-flash`이며, 고급 설정에서 모델명을 바꾸면 Gemini 주소의 모델 경로도 함께 맞춘다.
-- GitHub Pages는 서버 프록시가 없으므로, 고급 설정에서 다른 API 주소를 넣는 경우 해당 API가 브라우저 직접 호출과 CORS를 허용해야 한다.
+- 지원 제공자는 `Gemini`, `OpenAI`, `Claude` 세 가지로 제한한다.
+- 기본 모델은 각각 `gemini-2.5-flash`, `gpt-4.1-mini`, `claude-sonnet-4-20250514`이다.
+- GitHub Pages는 서버 프록시가 없으므로 API 키가 브라우저에서 직접 사용된다.
 - 화면에서 생성된 문항은 `expert_review_required` 상태로 저장된다. 즉, 전문가 검토 전 후보 문항이다.
 - 이 화면은 응답자료를 다루지 않는다. 심리측정 결과나 실증 타당도 주장을 만들지 않는다.
 

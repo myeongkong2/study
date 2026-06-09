@@ -48,11 +48,37 @@ OK
 | LLM 생성 | `llm_generation.py`가 부모 템플릿 계보를 유지하고 중복 stem/변수 조합을 제거한다 |
 | 심리측정 | `psychometrics.py`가 상관계수를 -1에서 1 사이로 제한하고 결측 경고를 제공한다 |
 | 로컬 웹앱 | `webapp.py`가 examples 내부 프로젝트만 읽고 DOM `textContent` 렌더링을 사용한다 |
-| 공유 웹 화면 | `pages/index.html`이 기본 API 키 입력과 접힌 고급 연결 설정을 분리한다 |
+| 공유 웹 화면 | `pages/index.html`이 Gemini, OpenAI, Claude 세 제공자만 고정 지원한다 |
 
 ## 이번 점검에서 수정한 사항
 
-### 1. 공유 웹 화면의 모델/주소 동기화
+### 1. 공유 웹 화면의 지원 API 고정
+
+문제:
+
+이전 화면은 API 주소를 사용자가 직접 넣는 구조라서 Gemini, OpenAI-compatible, 기타 API의 차이가 화면에 섞일 수 있었다.
+
+수정:
+
+`pages/index.html`에서 API 주소 입력을 제거하고 `Gemini`, `OpenAI`, `Claude` 세 제공자만 선택하게 했다.
+
+의미:
+
+사용자는 선택한 제공자의 API 키와 모델명만 입력한다. 호출 주소, 인증 헤더, 요청 본문은 코드 내부에서 제공자별로 분리한다.
+
+### 2. 제공자별 호출 함수 분리
+
+수정:
+
+- `callGemini()`: Google Generative Language `generateContent` 형식
+- `callOpenAI()`: OpenAI Chat Completions 형식
+- `callClaude()`: Anthropic Messages API 형식
+
+의미:
+
+세 API의 인증 방식과 응답 구조가 서로 다르기 때문에 하나의 OpenAI-compatible 호출로 섞어 처리하지 않는다.
+
+### 3. 공유 웹 화면의 모델/주소 동기화
 
 문제:
 
@@ -66,19 +92,19 @@ OK
 
 사용자가 고급 설정에서 Gemini 모델명을 바꿨을 때 실제 API 호출도 같은 모델을 향한다.
 
-### 2. 코드북 보강
+### 4. 코드북 보강
 
 `docs/CODEBOOK.md`에 GitHub Pages 후보 문항 생성 화면 코드북을 추가했다.
 
 추가한 내용:
 
 - 기본 화면 입력값
-- 고급 연결 설정의 의미
+- 지원 API와 모델 설정의 의미
 - 생성 결과 저장 방식
 - 저장 JSON의 핵심 필드
 - 응답자료 전 후보 문항이라는 해석 경계
 
-### 3. 소스 코드 해설서 보강
+### 5. 소스 코드 해설서 보강
 
 `docs/SRC_CODE_GUIDE.md`에 `pages/index.html` 해설을 추가했다.
 
@@ -92,7 +118,6 @@ OK
 ## 남아 있는 주의점
 
 1. GitHub Pages 화면은 서버 프록시가 없는 정적 앱이다. 사용자의 API 키가 브라우저에서 직접 사용된다.
-2. 다른 API 주소를 고급 설정에 넣는 경우, 해당 API가 브라우저 직접 호출과 CORS를 허용해야 한다.
+2. 지원 API는 Gemini, OpenAI, Claude 세 가지다. 다른 API는 이 화면에서 직접 연결하지 않는다.
 3. `pages/index.html`의 후보 문항 생성은 연구자 검토 전 후보를 만드는 기능이다. 이 결과를 실증 타당도 증거로 해석하면 안 된다.
 4. 실제 운영 서비스로 확장하려면 API 키 보호를 위한 서버 프록시, 인증, 권한관리, 프로젝트 저장소가 필요하다.
-

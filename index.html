@@ -192,6 +192,39 @@
 
     .api-grid .wide { grid-column: auto; }
 
+    .provider-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .provider-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .provider-card {
+      display: flex;
+      min-height: 52px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #fff;
+      color: #344054;
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .provider-option input:checked + .provider-card {
+      border-color: var(--primary);
+      background: #e9f7f4;
+      color: var(--primary-strong);
+      box-shadow: inset 0 0 0 1px var(--primary);
+    }
+
     .mini-note {
       margin: 8px 0 0;
       color: var(--muted);
@@ -432,21 +465,34 @@
         <div class="panel-body">
           <div class="api-grid">
             <div class="field">
+              <label>사용할 API</label>
+              <div class="provider-grid" role="radiogroup" aria-label="사용할 API">
+                <label class="provider-option">
+                  <input type="radio" name="provider" value="gemini" checked>
+                  <span class="provider-card">Gemini</span>
+                </label>
+                <label class="provider-option">
+                  <input type="radio" name="provider" value="openai">
+                  <span class="provider-card">OpenAI</span>
+                </label>
+                <label class="provider-option">
+                  <input type="radio" name="provider" value="claude">
+                  <span class="provider-card">Claude</span>
+                </label>
+              </div>
+            </div>
+            <div class="field">
               <label for="key">API 키</label>
               <input id="key" type="password" autocomplete="off" placeholder="API 키 입력">
             </div>
             <details class="advanced-api">
-              <summary>고급 연결 설정</summary>
+              <summary>모델 설정</summary>
               <div class="field">
                 <label for="model">모델 이름</label>
                 <input id="model" value="gemini-2.5-flash">
               </div>
-              <div class="field">
-                <label for="endpoint">API 주소</label>
-                <input id="endpoint" value="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent">
-              </div>
             </details>
-            <p class="mini-note">보통은 API 키만 넣으면 됩니다. 다른 연결이 필요할 때만 고급 설정을 엽니다.</p>
+            <p class="mini-note">API 주소는 내부에서 고정합니다. Gemini, OpenAI, Claude 키만 사용할 수 있습니다.</p>
           </div>
 
           <div class="field">
@@ -504,8 +550,25 @@
     const $ = (id) => document.getElementById(id);
     const state = { items: [] };
     const keyStorageName = "ecd-aig-api-key-v2";
-    const endpointStorageName = "ecd-aig-api-endpoint-v4";
-    const modelStorageName = "ecd-aig-api-model-v4";
+    const providerStorageName = "ecd-aig-api-provider-v1";
+    const modelStorageName = "ecd-aig-api-models-v1";
+    const PROVIDERS = {
+      gemini: {
+        label: "Gemini",
+        model: "gemini-2.5-flash",
+        endpoint: (model) => `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`
+      },
+      openai: {
+        label: "OpenAI",
+        model: "gpt-4.1-mini",
+        endpoint: () => "https://api.openai.com/v1/chat/completions"
+      },
+      claude: {
+        label: "Claude",
+        model: "claude-sonnet-4-20250514",
+        endpoint: () => "https://api.anthropic.com/v1/messages"
+      }
+    };
     const DEFAULT_RESPONSE_SCALE = ["전혀 그렇지 않다", "그렇지 않다", "보통이다", "그렇다", "매우 그렇다"];
     const DEFAULT_CONSTRAINTS = [
       "한 문항에는 한 상황과 한 반응만 포함한다.",
@@ -515,13 +578,33 @@
     ].join(" ");
 
     const rememberedKey = localStorage.getItem(keyStorageName);
-    const rememberedEndpoint = localStorage.getItem(endpointStorageName);
-    const rememberedModel = localStorage.getItem(modelStorageName);
-    $("endpoint").value = rememberedEndpoint || "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
-    $("model").value = rememberedModel || "gemini-2.5-flash";
+    const rememberedProvider = localStorage.getItem(providerStorageName);
+    const rememberedModels = readRememberedModels();
+    const initialProvider = PROVIDERS[rememberedProvider] ? rememberedProvider : "gemini";
+    document.querySelector(`input[name="provider"][value="${initialProvider}"]`).checked = true;
+    $("model").value = rememberedModels[initialProvider] || PROVIDERS[initialProvider].model;
     if (rememberedKey) {
       $("key").value = rememberedKey;
       $("remember-key").checked = true;
+    }
+
+    function currentProvider() {
+      return document.querySelector('input[name="provider"]:checked')?.value || "gemini";
+    }
+
+    function readRememberedModels() {
+      try {
+        return JSON.parse(localStorage.getItem(modelStorageName) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    function rememberCurrentModel() {
+      const provider = currentProvider();
+      const models = readRememberedModels();
+      models[provider] = $("model").value.trim();
+      localStorage.setItem(modelStorageName, JSON.stringify(models));
     }
 
     function syncRememberedKey() {
@@ -532,8 +615,15 @@
 
     $("key").addEventListener("input", syncRememberedKey);
     $("remember-key").addEventListener("change", syncRememberedKey);
-    $("endpoint").addEventListener("input", () => localStorage.setItem(endpointStorageName, $("endpoint").value.trim()));
-    $("model").addEventListener("input", () => localStorage.setItem(modelStorageName, $("model").value.trim()));
+    document.querySelectorAll('input[name="provider"]').forEach((input) => {
+      input.addEventListener("change", () => {
+        const provider = currentProvider();
+        const models = readRememberedModels();
+        $("model").value = models[provider] || PROVIDERS[provider].model;
+        localStorage.setItem(providerStorageName, provider);
+      });
+    });
+    $("model").addEventListener("input", rememberCurrentModel);
 
     function normalize(text) {
       return String(text || "").replace(/\s+/g, "").toLowerCase();
@@ -603,24 +693,24 @@ ${JSON.stringify(excluded, null, 2)}`;
     }
 
     function apiConfig() {
-      const endpoint = $("endpoint").value.trim();
-      const model = $("model").value.trim();
-      const mode = endpoint.includes("generativelanguage.googleapis.com") || endpoint.includes(":generateContent") ? "gemini" : "chat_completions";
-      const effectiveEndpoint = mode === "gemini" && model
-        ? endpoint.replace(/\/models\/[^:]+:generateContent/, `/models/${encodeURIComponent(model)}:generateContent`)
-        : endpoint;
+      const provider = currentProvider();
+      const model = $("model").value.trim() || PROVIDERS[provider].model;
       return {
-        mode,
+        mode: provider,
+        provider,
+        label: PROVIDERS[provider].label,
         key: $("key").value.trim(),
         model,
-        endpoint: effectiveEndpoint
+        endpoint: PROVIDERS[provider].endpoint(model)
       };
     }
 
     async function callApi(config, count, excluded) {
       if (!config.endpoint) throw new Error("API 연결 설정을 찾지 못했습니다.");
       if (config.mode === "gemini") return callGemini(config, count, excluded);
-      return callChatCompletions(config, count, excluded);
+      if (config.mode === "openai") return callOpenAI(config, count, excluded);
+      if (config.mode === "claude") return callClaude(config, count, excluded);
+      throw new Error("지원하지 않는 API입니다. Gemini, OpenAI, Claude 중 하나를 선택하세요.");
     }
 
     async function callGemini(config, count, excluded) {
@@ -640,24 +730,18 @@ ${JSON.stringify(excluded, null, 2)}`;
       const raw = await response.json();
       const text = raw.candidates?.[0]?.content?.parts?.[0]?.text;
       if (!text) throw new Error("Gemini 응답에서 문항 JSON을 찾지 못했습니다.");
-      return JSON.parse(text).items;
+      return itemsFromJsonText(text, "Gemini");
     }
 
-    async function callChatCompletions(config, count, excluded) {
-      if (!config.endpoint) throw new Error("API 엔드포인트를 입력하세요.");
-      const headers = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${config.key}`
-      };
-      if (config.endpoint.includes("openrouter.ai")) {
-        headers["HTTP-Referer"] = location.origin;
-        headers["X-Title"] = "ECD-AIG Candidate Generator";
-      }
+    async function callOpenAI(config, count, excluded) {
       const response = await fetch(config.endpoint, {
         method: "POST",
-        headers,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${config.key}`
+        },
         body: JSON.stringify({
-          ...(config.model ? { model: config.model } : {}),
+          model: config.model,
           messages: [
             {
               role: "system",
@@ -672,13 +756,39 @@ ${JSON.stringify(excluded, null, 2)}`;
           response_format: { type: "json_object" }
         })
       });
-      if (!response.ok) throw new Error(await apiErrorMessage(response, "API"));
+      if (!response.ok) throw new Error(await apiErrorMessage(response, "OpenAI"));
       const raw = await response.json();
       const text = raw.choices?.[0]?.message?.content;
-      if (!text) throw new Error("API 응답에서 문항 JSON을 찾지 못했습니다.");
-      const parsed = JSON.parse(text);
-      if (!Array.isArray(parsed.items)) throw new Error("응답 JSON에 items 배열이 없습니다.");
-      return parsed.items;
+      if (!text) throw new Error("OpenAI 응답에서 문항 JSON을 찾지 못했습니다.");
+      return itemsFromJsonText(text, "OpenAI");
+    }
+
+    async function callClaude(config, count, excluded) {
+      const response = await fetch(config.endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": config.key,
+          "anthropic-version": "2023-06-01",
+          "anthropic-dangerous-direct-browser-access": "true"
+        },
+        body: JSON.stringify({
+          model: config.model,
+          max_tokens: 4000,
+          system: "Return only valid JSON. The JSON must be an object with an items array.",
+          messages: [
+            {
+              role: "user",
+              content: `${promptFor(count, excluded)}\n\nJSON schema summary: {"items":[{"stem":"string","situation":"string","response_signal":"string","rationale":"string"}]}`
+            }
+          ]
+        })
+      });
+      if (!response.ok) throw new Error(await apiErrorMessage(response, "Claude"));
+      const raw = await response.json();
+      const text = (raw.content || []).filter((part) => part.type === "text").map((part) => part.text).join("\n").trim();
+      if (!text) throw new Error("Claude 응답에서 문항 JSON을 찾지 못했습니다.");
+      return itemsFromJsonText(text, "Claude");
     }
 
     function unique(items, accepted) {
@@ -700,10 +810,20 @@ ${JSON.stringify(excluded, null, 2)}`;
       if (response.status === 400 && detail.includes("API_KEY_INVALID")) {
         return "Gemini API 키가 유효하지 않습니다. Google AI Studio에서 새 API 키를 만든 뒤, 앞뒤 공백 없이 다시 붙여넣으세요.";
       }
+      if (response.status === 401) {
+        return `${label} API 키가 유효하지 않습니다. 선택한 API와 같은 회사의 키인지 확인하고 새 키를 다시 붙여넣으세요.`;
+      }
       if (response.status === 403) {
         return `${label} 접근이 거절되었습니다. API 키 권한, 결제/할당량, HTTP referrer 제한 설정을 확인하세요.`;
       }
       return `${label} 오류 ${response.status}: ${detail}`;
+    }
+
+    function itemsFromJsonText(text, label) {
+      const cleaned = text.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "");
+      const parsed = JSON.parse(cleaned);
+      if (!Array.isArray(parsed.items)) throw new Error(`${label} 응답 JSON에 items 배열이 없습니다.`);
+      return parsed.items;
     }
 
     function render(items) {
@@ -767,6 +887,8 @@ ${JSON.stringify(excluded, null, 2)}`;
           parent_template: template,
           generation_api: {
             mode: config.mode,
+            provider: config.provider,
+            provider_label: config.label,
             model: config.model,
             endpoint: config.endpoint
           },

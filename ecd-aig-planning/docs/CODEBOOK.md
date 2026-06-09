@@ -246,25 +246,27 @@ py -m ecd_aig pre-response examples\job_stress_workload_12item_user_project.json
 
 | 화면 항목 | 의미 | 기본 동작 |
 |---|---|---|
-| `API 키` | Google AI Studio 또는 고급 설정에서 지정한 API의 키 | 기본 화면에서 바로 입력 |
+| `사용할 API` | `Gemini`, `OpenAI`, `Claude` 중 하나 | API 주소는 내부에서 고정 |
+| `API 키` | 선택한 제공자의 API 키 | 기본 화면에서 바로 입력 |
 | `이 브라우저에 키 저장` | 현재 브라우저 localStorage에 키 저장 | 공용 PC에서는 사용하지 않는 것을 권장 |
 | `무엇을 측정할까요?` | 생성할 문항의 측정 초점 | 내부 부모 템플릿의 `measurement_focus`로 사용 |
 | `어떤 맥락의 문항이 필요한가요?` | 문항 상황 도메인 | 문항마다 다른 구체적 상황을 요구하는 프롬프트로 사용 |
 | `개수` | 생성할 후보 문항 수 | 1-30개 |
-| `고급 연결 설정` | 모델 이름과 API 주소 | 기본은 접혀 있음 |
+| `모델 설정` | 선택한 제공자의 모델 이름 | 기본은 접혀 있음 |
 
-기본 사용자는 `API 키`, 측정 내용, 맥락, 개수만 입력하면 된다. `고급 연결 설정`은 다른 모델 또는 다른 브라우저 호출 가능 API를 붙일 때만 연다.
+기본 사용자는 `사용할 API`, `API 키`, 측정 내용, 맥락, 개수만 입력하면 된다. API 주소는 사용자가 직접 입력하지 않는다.
 
-### 고급 연결 설정
+### 지원 API
 
-기본값은 다음과 같다.
+지원 범위는 다음 세 가지로 제한한다.
 
-```text
-model = gemini-2.5-flash
-endpoint = https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent
-```
+| 제공자 | 기본 모델 | 내부 호출 주소 | 인증 방식 |
+|---|---|---|---|
+| `Gemini` | `gemini-2.5-flash` | Google Generative Language `generateContent` | `x-goog-api-key` |
+| `OpenAI` | `gpt-4.1-mini` | OpenAI Chat Completions | `Authorization: Bearer` |
+| `Claude` | `claude-sonnet-4-20250514` | Anthropic Messages API | `x-api-key` |
 
-Gemini 계열 주소를 사용할 때는 `모델 이름`을 바꾸면 호출 주소의 `/models/...:generateContent` 부분도 같은 모델명으로 맞춰진다. 그 외 주소는 OpenAI-compatible Chat Completions 형식으로 호출한다.
+`모델 설정`을 열면 모델 이름만 바꿀 수 있다. API 주소는 선택한 제공자에 따라 코드 내부에서 결정된다.
 
 ### 생성 결과 저장 방식
 
@@ -275,7 +277,7 @@ Gemini 계열 주소를 사용할 때는 `모델 이름`을 바꾸면 호출 주
 | 필드 | 의미 |
 |---|---|
 | `parent_template` | 화면 입력값에서 자동 구성된 내부 부모 템플릿 |
-| `generation_api` | 사용한 호출 방식, 모델, API 주소 |
+| `generation_api` | 사용한 제공자, 모델, 내부 API 주소 |
 | `status` | `expert_review_required` |
 | `researcher_decision` | 저장 시 `accepted` |
 | `researcher_note` | 연구자 검토 메모 |
