@@ -636,7 +636,7 @@ ${JSON.stringify(excluded, null, 2)}`;
         })
       });
 
-      if (!response.ok) throw new Error(`Gemini API 오류 ${response.status}: ${await response.text()}`);
+      if (!response.ok) throw new Error(await apiErrorMessage(response, "Gemini"));
       const raw = await response.json();
       const text = raw.candidates?.[0]?.content?.parts?.[0]?.text;
       if (!text) throw new Error("Gemini 응답에서 문항 JSON을 찾지 못했습니다.");
@@ -672,7 +672,7 @@ ${JSON.stringify(excluded, null, 2)}`;
           response_format: { type: "json_object" }
         })
       });
-      if (!response.ok) throw new Error(`API 오류 ${response.status}: ${await response.text()}`);
+      if (!response.ok) throw new Error(await apiErrorMessage(response, "API"));
       const raw = await response.json();
       const text = raw.choices?.[0]?.message?.content;
       if (!text) throw new Error("API 응답에서 문항 JSON을 찾지 못했습니다.");
@@ -693,6 +693,17 @@ ${JSON.stringify(excluded, null, 2)}`;
         seenPairs.add(pair);
         return true;
       });
+    }
+
+    async function apiErrorMessage(response, label) {
+      const detail = await response.text();
+      if (response.status === 400 && detail.includes("API_KEY_INVALID")) {
+        return "Gemini API 키가 유효하지 않습니다. Google AI Studio에서 새 API 키를 만든 뒤, 앞뒤 공백 없이 다시 붙여넣으세요.";
+      }
+      if (response.status === 403) {
+        return `${label} 접근이 거절되었습니다. API 키 권한, 결제/할당량, HTTP referrer 제한 설정을 확인하세요.`;
+      }
+      return `${label} 오류 ${response.status}: ${detail}`;
     }
 
     function render(items) {
