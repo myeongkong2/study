@@ -148,9 +148,13 @@
     h2 { margin: 0; font-size: 18px; line-height: 1.25; letter-spacing: 0; }
     .sub { margin: 4px 0 0; color: var(--muted); font-size: 13px; word-break: keep-all; }
     .panel-body { padding: 18px; }
+    .panel-body > * { margin-top: 0; }
+    .panel-body > * + * { margin-top: 16px; }
 
     .field { margin-top: 14px; }
     .field:first-child { margin-top: 0; }
+    .panel-body > .field { margin-top: 16px; }
+    .panel-body > .field:first-child { margin-top: 0; }
     label { display: block; margin-bottom: 6px; color: #344054; font-size: 13px; font-weight: 800; }
     input, textarea {
       width: 100%;
@@ -173,6 +177,8 @@
       align-items: end;
     }
 
+    .split .field { margin-top: 0; }
+
     .remember {
       display: flex;
       align-items: center;
@@ -187,10 +193,11 @@
     .api-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px;
+      gap: 16px;
     }
 
     .api-grid .wide { grid-column: auto; }
+    .api-grid .field { margin-top: 0; }
 
     .provider-grid {
       display: grid;
@@ -226,7 +233,7 @@
     }
 
     .mini-note {
-      margin: 8px 0 0;
+      margin: 0;
       color: var(--muted);
       font-size: 12px;
       word-break: keep-all;
@@ -272,7 +279,7 @@
     .link-button:hover { border-color: var(--line-strong); color: var(--primary); }
 
     .plain-note {
-      margin: 16px 0 0;
+      margin: 0;
       padding: 11px 12px;
       border: 1px solid #d9caad;
       border-radius: 9px;
@@ -282,7 +289,7 @@
       word-break: keep-all;
     }
 
-    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
     button {
       min-height: 44px;
       border: 0;
