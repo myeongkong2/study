@@ -264,7 +264,7 @@ py -m ecd_aig pre-response examples\job_stress_workload_12item_user_project.json
 |---|---|---|---|
 | `Gemini` | `gemini-2.5-flash` | Google Generative Language `generateContent` | `x-goog-api-key` |
 | `OpenAI` | `gpt-4.1-mini` | OpenAI Chat Completions | `Authorization: Bearer` |
-| `Claude` | `claude-sonnet-4-20250514` | Anthropic Messages API | `x-api-key` |
+| `Claude` | `claude-sonnet-4-6` | Anthropic Messages API | `x-api-key` |
 
 `모델 설정`을 열면 모델 이름만 바꿀 수 있다. API 주소는 선택한 제공자에 따라 코드 내부에서 결정된다.
 

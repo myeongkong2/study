@@ -719,7 +719,7 @@ tests
 
 - `API 키`는 브라우저에서 직접 사용된다. 사용자가 체크한 경우에만 localStorage에 저장한다.
 - 지원 제공자는 `Gemini`, `OpenAI`, `Claude` 세 가지로 제한한다.
-- 기본 모델은 각각 `gemini-2.5-flash`, `gpt-4.1-mini`, `claude-sonnet-4-20250514`이다.
+- 기본 모델은 각각 `gemini-2.5-flash`, `gpt-4.1-mini`, `claude-sonnet-4-6`이다.
 - GitHub Pages는 서버 프록시가 없으므로 API 키가 브라우저에서 직접 사용된다.
 - 화면에서 생성된 문항은 `expert_review_required` 상태로 저장된다. 즉, 전문가 검토 전 후보 문항이다.
 - 이 화면은 응답자료를 다루지 않는다. 심리측정 결과나 실증 타당도 주장을 만들지 않는다.
